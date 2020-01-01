@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+group 'com.jemylibs.gdb'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.6
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.5'
+}
