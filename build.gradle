@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'com.jemylibs.fxframework'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':gdb')
+    implementation project(':jdb')
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation group: 'org.controlsfx', name: 'controlsfx', version: '8.0.5'
+
+}

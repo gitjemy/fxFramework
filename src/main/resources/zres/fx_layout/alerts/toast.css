@@ -1,0 +1,46 @@
+
+.type-fine{
+    -fx-type-color: rgba(0,70,150,.9) !important;
+    -fx-type-fill:  rgba(0,30,120,1);
+}
+.type-error{
+    -fx-type-color: rgba(230,00,40,.9) !important;
+    -fx-type-fill:  rgba(120,0,30,1);
+}
+
+.toast-view{
+    -fx-padding: 5;
+    -fx-background-radius: 5;
+    -fx-border-radius:5;
+    -fx-border-width: 1;
+    -fx-border-color: rgba(255,255,255,.0)!important;
+    -fx-background-color:-fx-type-color;
+}
+
+.toast-view:hover{
+    -fx-border-color: rgba(33,33,33,.4)!important;
+}
+
+.toast-close-button{
+    -fx-padding: 1 3 1 3;
+    -fx-background-radius: 30;
+    -fx-background-color:rgb(30,30,30)!important;
+    -fx-text-fill: #fff;
+}
+ .toast-close-button:hover{
+    -fx-background-color:rgb(200,150,140)!important;
+    -fx-text-fill: #fff;
+}
+
+.toast-title{
+    -fx-background-color: rgba(0,0,0,.6)!important;
+    -fx-background-radius: 5;
+    -fx-border-radius:5;
+}
+
+.toast-type-label{
+    -fx-background-color: rgba(255,255,255,.9)!important;
+    -fx-background-radius: 5;
+    -fx-text-fill: -fx-type-fill;
+    -fx-border-radius:5;
+}

@@ -1,0 +1,6 @@
+rootProject.name = 'fxframework'
+include ':gdb'
+project(':gdb').projectDir = new File('../JDB/gdb')
+
+include ':jdb'
+project(':jdb').projectDir = new File('../JDB')

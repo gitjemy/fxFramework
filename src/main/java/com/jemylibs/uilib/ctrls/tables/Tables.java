@@ -1,0 +1,86 @@
+package com.jemylibs.uilib.ctrls.tables;
+
+import com.jemylibs.uilib.ctrls.tables.customCols.MethodCol;
+import com.jemylibs.uilib.ctrls.tables.customCols.PropertyCol;
+import com.jemylibs.uilib.ctrls.tables.customCols.col;
+import com.jemylibs.uilib.object_mapping.propertise.write.WritablePropertyControl;
+import com.jemylibs.gdb.ZSqlRow;
+import com.jemylibs.sedb.SETable;
+import com.jemylibs.sedb.ZCOL.SqlCol;
+import com.sun.javafx.scene.control.skin.TableHeaderRow;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static com.jemylibs.uilib.StylesManager.assertation;
+
+public class Tables {
+    static {
+        assertation();
+    }
+
+    public static <R> void init_table(TableView<R> table, col<R, ?>... cols) {
+        table.setPlaceholder(new Label("لا يوجد مدخلات"));
+        table.setTableMenuButtonVisible(true);
+        table.getColumns().setAll(FXCollections.observableArrayList(cols));
+    }
+
+    public static <R> void init_table(TableView<R> table, List<col<R, ?>> cols) {
+        table.setPlaceholder(new Label("لا يوجد مدخلات"));
+        table.setTableMenuButtonVisible(true);
+        table.getColumns().setAll(cols);
+    }
+
+    public static <R extends ZSqlRow> void init_table(TableView<R> table, SETable<R> dbtable) {
+        table.setPlaceholder(new Label("لا يوجد مدخلات"));
+        table.setTableMenuButtonVisible(true);
+        table.getColumns().setAll(create_table_cols(dbtable));
+    }
+
+    public static <R extends ZSqlRow> ArrayList<col<R, ?>> create_table_cols(SETable<R> dbtable) {
+        return create_table_cols(dbtable.getCols());
+    }
+
+    public static <R extends ZSqlRow> ArrayList<col<R, ?>> create_table_cols(SqlCol<R, ?>... cols) {
+        return Stream.of(cols)
+                .map(Tables::create_table_col)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public static <R extends ZSqlRow> col<R, ?> create_table_col(SqlCol<R, ?> col) {
+        return new PropertyCol<>(col.getProperty().getTitle(), col.name);
+    }
+
+    public static <R> void init_un_sortable_table(TableView<R> table, col<R, ?>... cols) {
+        init_table(table, cols);
+        for (col<R, ?> col : cols) {
+            col.setSortable(false);
+        }
+    }
+
+    public static <E> ArrayList<col<E, ?>> fromProperties(WritablePropertyControl<E, ?, ?>... controls) {
+        return Stream.of(controls)
+                .map(e -> new MethodCol<>(e.getTitle(), e.property.getReader()))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public static void setTableHeightByRowCount(TableView table, ObservableList data) {
+        int rowCount = data.size();
+        TableHeaderRow headerRow = (TableHeaderRow) table.lookup("TableHeaderRow");
+        double tableHeight = (rowCount * table.getFixedCellSize())
+                // add the insets or we'll be short by a few pixels
+                + table.getInsets().getTop() + table.getInsets().getBottom()
+                // header row has its own (different) height
+                + (headerRow == null ? 0 : headerRow.getHeight());
+
+        table.setMinHeight(tableHeight);
+        table.setMaxHeight(tableHeight);
+        table.setPrefHeight(tableHeight);
+    }
+}

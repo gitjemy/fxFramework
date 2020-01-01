@@ -1,0 +1,242 @@
+/**
+Title :Main Stage Style Sheet
+Author: Ahmed Gamal
+**/
+
+* {
+    base-1: #f9f9f9;
+    base-2: #eeefff;
+    base-3: #e6e6e6;
+    base-4: #516dc6;
+    base-5: #f9f9f9;
+
+    base-fill-1: #444;
+    base-fill-2: #fff;
+    base-fill-3: #fff;
+    base-fill-4: #fff;
+    base-fill-5: #666666;
+
+    -fx-base: base-1;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+}
+
+.text {
+    -fx-accent: #53cdff;
+    -fx-focus-color: #125ca1;
+    -fx-font-family: '';
+}
+
+.text-field {
+    -fx-prompt-text-fill: rgba(0, 0, 0, 0.4);
+}
+
+.h-box, v-box {
+    -fx-alignment: CENTER;
+}
+
+.choice-box, .button, .text-field, .combo-box, .menu-button {
+    -fx-base: base-5;
+    -fx-text-fill: base-fill-5;
+    -fx-border-width: 1;
+    -fx-border-color: base-3;
+    -fx-background-insets: 1;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.button {
+    -fx-padding: 2 8 2 8;
+}
+
+
+.text-field {
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.text-area {
+    -fx-base: base-5;
+    -fx-text-fill: base-fill-5;
+    -fx-border-width: 1;
+    -fx-border-color: base-3;
+    -fx-background-insets: 1;
+}
+
+.choice-box .context-menu {
+    -fx-padding: 5px;
+    -fx-background-insets: 3;
+    -fx-background-radius: 5;
+}
+
+
+.auto-complete {
+    -fx-text-fill: #AA0044;
+}
+
+.auto-complete label {
+    -fx-text-fill: #fff;
+}
+
+.auto-complete {
+
+}
+
+.auto-complete .text-field {
+    -fx-padding: 0px 10px 0px 10px;
+}
+
+.combo-box .list-cell {
+    -fx-background: white;
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-padding: 3 0 2 7;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow(three-pass-box, base-4, 2, 0.0, 0, 0);
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: white;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover {
+    -fx-background: base-4;
+    -fx-background-color: base-4;
+    -fx-text-fill: base-1;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover {
+    -fx-background-color: base-2;
+    -fx-text-fill: -fx-text-inner-color;
+}
+
+
+.combo-box-base:hover {
+    -fx-color: -fx-hover-base;
+}
+
+.combo-box-base:showing {
+    -fx-color: -fx-pressed-base;
+}
+
+.combo-box-base:focused {
+    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-radius: 6.4, 4, 5, 3;
+    -fx-background-insets: -1.4, 0, 1, 2;
+}
+
+.combo-box-base:disabled {
+    -fx-opacity: .4;
+}
+
+
+.choice-box {
+    -fx-padding: 0px;
+}
+
+.choice-box .context-menu .menu-item:hover {
+    -fx-background-color: base-4;
+}
+
+.text-field {
+    -fx-padding: 4 10 4 10;
+}
+
+.button {
+    -fx-font-size: 14;
+}
+
+/**
+*
+*
+*
+tooltip*/
+
+.tooltip {
+    -fx-font: 14px 'Raleway', 'JF Flat';
+}
+
+.tooltip .ErrorToolTip {
+    -fx-text-fill: #AA0044;
+    -fx-background-color: rgba(255, 255, 255, .9);
+}
+
+.tooltip .GuideToolTip {
+    -fx-text-fill: #333;
+    -fx-background-color: #fff;
+    -fx-padding: 10 15 10 15;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-width: 0;
+    -fx-border-color: #666;
+}
+
+
+/* ListViews */
+.list-view .list-cell { /* <=== changed to even */
+    -fx-padding: 4;
+}
+
+.list-view .list-cell:filled:selected:focused, .list-view .list-cell:filled:selected {
+    -fx-background-color: base-4;
+    -fx-border-width: 0;
+    -fx-border-color: #555;
+}
+
+.list-view .list-cell .list-cell-label {
+    -fx-text-fill: #4e4e4e;
+}
+
+.list-view .list-cell .title {
+    -fx-text-fill: #54f;
+}
+
+
+.list-view .list-cell:filled:selected:focused, .list-view .list-cell-label, .list-view .list-cell:filled:selected .list-cell-label {
+    -fx-text-fill: white;
+}
+
+.list-view .list-cell:filled:selected:focused .title, .list-view .list-cell:filled:selected .title {
+
+}
+
+/* split pane */
+.split-pane-divider {
+    -fx-background-color: #d3e8f4;
+    -fx-border-width: 0;
+    -fx-border-color: base-4;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.split-pane-divider:hover {
+    -fx-background-color: #0c697a;
+}
+
+
+#sssaaa {
+    -fx-padding: 5;
+    -fx-background-radius: 10;
+    -fx-border-width: 1;
+    -fx-border-color: #0056ff;
+    -fx-border-radius: 10;
+}
+
+#sssaaa .z-item-view {
+    -fx-border-width: 0 3 0 0;
+    /*-fx-border-color: #545454;*/
+    /*-fx-min-width: 300;*/
+    /*-fx-max-width: 300;*/
+}
+
+#lalal {
+    -fx-background-radius: 20;
+    -fx-padding: 5 50 5 50;
+    -fx-border-width: 2;
+    -fx-border-color: #1971f8;
+    /*-fx-effect: dropshadow(three-pass-box, #31caee, 2, 0.0, 0, 0);*/
+    -fx-border-radius: 20;
+}
