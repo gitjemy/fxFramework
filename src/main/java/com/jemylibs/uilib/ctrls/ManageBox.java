@@ -39,7 +39,7 @@ public class ManageBox extends HBox {
     }
 
     public void setActions(ObjectTitle<EventHandler<ActionEvent>>... buttons) {
-
+        getChildren().clear();
         for (ObjectTitle<EventHandler<ActionEvent>> button : buttons) {
             Button butt = new Button(button.getTitle());
             getChildren().add(butt);
