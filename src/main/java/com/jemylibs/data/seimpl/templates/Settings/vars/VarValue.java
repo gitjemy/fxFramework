@@ -1,4 +1,4 @@
-package com.jemylibs.data.seimpl.templates.Settings.db;
+package com.jemylibs.data.seimpl.templates.Settings.vars;
 
 import com.jemylibs.data.seimpl.helpers.ZItem;
 

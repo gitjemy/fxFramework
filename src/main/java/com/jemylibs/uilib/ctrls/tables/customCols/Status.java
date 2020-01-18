@@ -15,12 +15,6 @@ public class Status {
         this.textColor = textColor;
     }
 
-    public Status(String text, String color) {
-        this.text = text;
-        this.color = color;
-        this.textColor = "#fff";
-    }
-
     public static Status green(String text) {
         return new Status(text, "#12ff66", "white");
     }

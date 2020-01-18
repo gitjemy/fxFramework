@@ -19,7 +19,7 @@ public class MethodCol<T, X> extends col<T, X> {
             }
             return apply + "";
         }));
-        setStyle("-fx-alignment: CENTER-LEFT;");
+        setSortable(false);
     }
 
 

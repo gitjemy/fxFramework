@@ -12,6 +12,7 @@ import java.util.Arrays;
 public abstract class ZNamedTable<E extends ZItem> extends SETable<E> {
 
     private final _String<E> name = new _String<>("name", 250, new WritableProperty<>("الاسم", ZItem::getName, ZItem::setName));
+
     private final _LastModified<E> last_updated = new _LastModified<>("تاريخ التعديل");
     private final _CreationTime<E> creationTime = new _CreationTime<>("تاريخ الانشاء");
 

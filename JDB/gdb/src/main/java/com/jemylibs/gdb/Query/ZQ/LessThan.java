@@ -1,6 +1,7 @@
 package com.jemylibs.gdb.Query.ZQ;
 
 import com.jemylibs.gdb.ZCOL.COL;
+import com.jemylibs.gdb.utility.StringUtils;
 
 public class LessThan extends Condition {
     private final COL col;
@@ -13,6 +14,6 @@ public class LessThan extends Condition {
 
     @Override
     public String getWherePiece() {
-        return "`" + col.mtable.TableName + "`.`" + col.name + "`<'" + value.toString() + "'";
+        return "`" + col.mtable.TableName + "`.`" + col.name + "`<'" + StringUtils.escapeString(value.toString(), true) + "'";
     }
 }

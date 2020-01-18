@@ -19,7 +19,6 @@ package com.jemylibs.uilib.utilities.icon;
 
 import com.jemylibs.uilib.utilities.icon.decorator.FillPaint;
 import com.jemylibs.uilib.utilities.icon.decorator.Shine;
-
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -38,6 +37,7 @@ public class IconBuilder implements Builder<Icon> {
         builder.icon.getProperties().put("ICONLABEL", iconf.toString());
         builder.icon.setText(iconf.getString());
         builder.icon.setFont(Font.font(iconf.getFontName(), size));
+        builder.icon.getStyleClass().add("ICONLABEL");
         return builder;
     }
 
@@ -46,7 +46,8 @@ public class IconBuilder implements Builder<Icon> {
     }
 
     public static Icon menu_bar(IconFont icon) {
-        return create(icon, 14.0).build();
+        return create(icon, 15.0)
+                .color(new Color(0 / 255f, 0 / 255f, 0 / 255f, 0.71)).build();
     }
 
     public static IconBuilder create() {

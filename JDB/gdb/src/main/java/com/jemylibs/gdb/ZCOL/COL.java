@@ -1,10 +1,10 @@
 package com.jemylibs.gdb.ZCOL;
 
 import com.jemylibs.gdb.Query.ZQ.Equal;
+import com.jemylibs.gdb.Table;
 import com.jemylibs.gdb.ZSqlRow;
 import com.jemylibs.gdb.helpers.Link;
 import com.jemylibs.gdb.properties.WritableProperty;
-import com.jemylibs.gdb.Table;
 
 import java.sql.SQLException;
 
@@ -43,6 +43,12 @@ public abstract class COL<rs, E extends ZSqlRow, V> {
     }
 
     abstract public Equal equal(V val);
+
+
+    public Equal equal(E val) {
+        V apply = property.getReader().apply(val);
+        return equal(apply);
+    }
 
     abstract protected void create(CreateTable CreateTable, Link link);
 

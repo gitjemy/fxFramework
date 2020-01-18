@@ -1,5 +1,5 @@
-#MainStage{
-  -fx-background-color: linear-gradient(#fff,#111) !important;
+#MainStage {
+    -fx-background-color: linear-gradient(#fff, #111) !important;
 }
 
 #header {
@@ -9,28 +9,30 @@
 
 .header-buttons {
     -fx-background-color: base-2;
-    -fx-padding:0 8 0 8;
-    -fx-background-radius:50;
-      -fx-background-color:#fff;
+    -fx-padding: 0 8 0 8;
+    -fx-background-radius: 50;
+    -fx-background-color: #fff;
 }
 
-.header-buttons .button{
+.header-buttons .button {
     -fx-base: #cc0000;
-    -fx-font-size:12px;
-    -fx-border-radius:50;
-    -fx-text-fill:base-fill-3;
-    -fx-background-radius:50;
+    -fx-font-size: 12px;
+    -fx-border-radius: 50;
+    -fx-text-fill: base-fill-3;
+    -fx-background-radius: 50;
 }
 
-#app-title{
-    -fx-background-color: base-4;
-
-    -fx-padding: 2 20 2 20;
-    -fx-font-size: 15 px;
-    -fx-background-radius:0 0 30 30;
+#app-title {
+    -fx-background-color: linear-gradient(#000000, #454545, #000000) !important;
+    -fx-padding: 2 10 2 10;
+    -fx-font-size: 15px;
+    -fx-background-radius: 0 0 20 20;
+    -fx-border-radius: 0 0 20 20;
+    -fx-border-color: #000000;
+    -fx-border-width: 0 2 2 2;
 }
 
-#app-title{
+#app-title {
     -fx-text-fill: base-fill-4;
 }
 
@@ -38,26 +40,27 @@
     -fx-background-color: transparent;
 }
 
-.menu-bar .menu:hover ,
-.menu-bar .menu:focused ,
+.menu-bar .menu:hover,
+.menu-bar .menu:focused,
 .menu-bar .menu:showing, .menu-bar .menu-item:hover {
     -fx-background-color: linear-gradient(#ffffff,
-        #efefef,#ffffff) !important;
+    #efefef, #ffffff) !important;
 }
 
-.menu-bar .menu .label, .menu-bar .menu-item .label{
-    -fx-text-fill:#333 !important;
+.menu-bar .menu .label, .menu-bar .menu-item .label {
+    -fx-text-fill: #333 !important;
 }
 
-.menu-bar .menu , .menu-bar .menu-item{
+.menu-bar .menu, .menu-bar .menu-item {
     -fx-background-radius: 5;
-    -fx-background-color:transparent;
+    -fx-background-color: transparent;
     -fx-padding: 8 10 8 10;
-    -fx-border-width:0;
+    -fx-border-width: 0;
 }
-.menu-bar .context-menu{
-    -fx-padding:5px;
-    -fx-background-insets:3;
-    -fx-background-radius:5;
+
+.menu-bar .context-menu {
+    -fx-padding: 5px;
+    -fx-background-insets: 3;
+    -fx-background-radius: 5;
 }
 

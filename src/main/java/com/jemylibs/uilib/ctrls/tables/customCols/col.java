@@ -11,4 +11,9 @@ abstract public class col<T, X> extends TableColumn<T, X> {
         setVisible(false);
         return this;
     }
+
+    public col<T, X> setTitle(String value) {
+        setText(value);
+        return this;
+    }
 }

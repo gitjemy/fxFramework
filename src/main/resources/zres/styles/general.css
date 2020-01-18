@@ -45,11 +45,6 @@ Author: Ahmed Gamal
     -fx-background-radius: 10;
 }
 
-.button {
-    -fx-padding: 2 8 2 8;
-}
-
-
 .text-field {
     -fx-border-radius: 5;
     -fx-background-radius: 5;
@@ -217,26 +212,41 @@ tooltip*/
 }
 
 
-#sssaaa {
-    -fx-padding: 5;
-    -fx-background-radius: 10;
-    -fx-border-width: 1;
-    -fx-border-color: #0056ff;
-    -fx-border-radius: 10;
+/*Project HR*/
+.activitiesContent .table-view:focused {
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
 }
 
 #sssaaa .z-item-view {
-    -fx-border-width: 0 3 0 0;
-    /*-fx-border-color: #545454;*/
-    /*-fx-min-width: 300;*/
-    /*-fx-max-width: 300;*/
+    -fx-padding: 2;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 0;
+}
+
+#sssaaa {
+    -fx-padding: 2;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-background-color: #484848;
+    -fx-border-width: 3 0 3 0;
+    -fx-border-color: #ff1e45;
 }
 
 #lalal {
-    -fx-background-radius: 20;
+    -fx-background-radius: 2;
     -fx-padding: 5 50 5 50;
-    -fx-border-width: 2;
-    -fx-border-color: #1971f8;
+    -fx-border-width: 0 0 2 0;
+    /*-fx-border-color: #47bcf8;*/
+    -fx-text-fill: white;
     /*-fx-effect: dropshadow(three-pass-box, #31caee, 2, 0.0, 0, 0);*/
-    -fx-border-radius: 20;
+    -fx-border-radius: 2;
+}
+
+.button {
+    -fx-padding: 2 8 2 8;
+    -fx-base: rgba(55, 99, 255, 0.87) !important;
+    -fx-text-fill: #e6e6e6 !important;
 }

@@ -1,28 +1,28 @@
-
 /*
 **  MoneyInput
 */
 .PiasterToggle:selected {
-    -fx-background-color:#333333 ;
+    -fx-background-color: #333333;
     -fx-text-fill: #ffffff;
 }
+
 .PiasterToggle {
-    -fx-font-size:15px;
+    -fx-font-size: 15px;
     -fx-text-fill: #333333;
-    -fx-base:#ffffff ;
+    -fx-base: #ffffff;
 }
 
-.SignLable{
-    -fx-font:16px 'JF Flat';
+.SignLable {
+    -fx-font: 16px 'JF Flat';
 }
 
-.SignToggle{
-    -fx-font:16px 'JF Flat';
-    -fx-base:#ddd ;
+.SignToggle {
+    -fx-font: 16px 'JF Flat';
+    -fx-base: #ddd;
 }
 
 .SignToggle:selected {
-    -fx-background-color:#7fe6ff ;
+    -fx-background-color: #7fe6ff;
 }
 
 /*
@@ -30,29 +30,29 @@
 */
 
 .pages .text-field:focused {
-    -fx-background-color: #91e2ff /* or transparent or other preferred color */,-fx-box-border,-fx-control-inner-background;
-    -fx-background-insets: -.5,2, 2;
-    -fx-background-radius: 3, 3,3;
+    -fx-background-color: #91e2ff /* or transparent or other preferred color */, -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: -.5, 2, 2;
+    -fx-background-radius: 3, 3, 3;
     -fx-padding: 1.5;
 }
 
-.pages .text-field , .pages .label  {
-    -fx-background-color: transparent /* or transparent or other preferred color */,-fx-box-border,-fx-control-inner-background;
+.pages .text-field, .pages .label {
+    -fx-background-color: transparent /* or transparent or other preferred color */, -fx-box-border, -fx-control-inner-background;
     -fx-padding: 0;
-    -fx-background-insets: 0,0,0;
-    -fx-background-radius: 0,0,0;
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 0, 0, 0;
 }
 
 /*
 ** flow-property-pane-item
 */
 
-.flow-property-pane-item{
+.flow-property-pane-item {
     -fx-background-radius: 0;
     -fx-border-radius: 10;
-    -fx-padding:2 10 2 10;
+    -fx-padding: 2 10 2 10;
     -fx-border-width: 1;
-        -fx-border-color: #f5024422;
+    -fx-border-color: #f5024422;
 
 }
 
@@ -61,31 +61,42 @@
     -fx-border-color: #f5024466;
 }
 
-.z-applet{
+.z-applet {
     applet-border-color: #4ccfff;
-     -fx-background-color: #fff !important;
-     -fx-border-radius: 20px !important;
-     -fx-background-radius: 20px !important;
-     -fx-border-color: applet-border-color #ccc #ccc #ccc;
-     -fx-border-width: 2 1 0 1;
+    -fx-background-color: #fff !important;
+    -fx-border-radius: 20px !important;
+    -fx-background-radius: 20px !important;
+    -fx-border-color: applet-border-color #ccc #ccc #ccc;
+    -fx-border-width: 2 1 0 1;
 }
 
 .z-applet .title {
-     -fx-background-color: #fff !important;
-     -fx-border-radius: 20px !important;
-     -fx-background-radius: 20px !important;
-     -fx-border-color: #ccc #ccc applet-border-color #ccc;
-     -fx-border-width: 0 1 1 1;
-     -fx-padding:5 10 5 10;
-     -fx-font-size:16px;
+    -fx-background-color: #fff !important;
+    -fx-border-radius: 20px !important;
+    -fx-background-radius: 20px !important;
+    -fx-border-color: #ccc #ccc applet-border-color #ccc;
+    -fx-border-width: 0 1 1 1;
+    -fx-padding: 5 10 5 10;
+    -fx-font-size: 16px;
 }
 
-.accounts-applet-item{
-     -fx-background-color: #fff !important;
-     -fx-border-radius: 20px !important;
-     -fx-background-radius: 20px !important;
-     -fx-border-color: #ccc #ccc applet-border-color #ccc;
-     -fx-border-width: 0 1 1 1;
-     -fx-padding:5 10 5 10;
-     -fx-font-size:16px;
+.accounts-applet-item {
+    -fx-background-color: #fff !important;
+    -fx-border-radius: 20px !important;
+    -fx-background-radius: 20px !important;
+    -fx-border-color: #ccc #ccc applet-border-color #ccc;
+    -fx-border-width: 0 1 1 1;
+    -fx-padding: 5 10 5 10;
+    -fx-font-size: 16px;
+}
+
+/*
+** z-filterer
+*/
+.z-filterer {
+    -fx-background-color: linear-gradient(#fff, #cccccc, #fff) !important;
+    -fx-border-radius: 20px !important;
+    -fx-background-radius: 20px !important;
+    -fx-border-width: 0 1 1 1;
+    -fx-padding: 2 20 2 20;
 }

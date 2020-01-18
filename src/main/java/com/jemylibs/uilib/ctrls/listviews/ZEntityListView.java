@@ -1,9 +1,9 @@
 package com.jemylibs.uilib.ctrls.listviews;
 
-import com.jemylibs.uilib.ctrls.filter.ZFilterer;
-import com.jemylibs.uilib.utilities.ZValidate;
 import com.jemylibs.gdb.ZSqlRow;
 import com.jemylibs.sedb.SETable;
+import com.jemylibs.uilib.ctrls.filter.ZFilterer;
+import com.jemylibs.uilib.utilities.ZValidate;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -15,15 +15,18 @@ import javafx.scene.layout.VBox;
 import java.util.function.Function;
 
 public class ZEntityListView<I extends ZSqlRow> extends VBox {
-    private ZFilterer<I> filterTextField = new ZFilterer<>();
+
+    private ZFilterer<I> filterTextField;
     private ListView<I> list = new ListView<>();
 
     public void init(boolean multiSelect, SETable<I> table, final Function<I, Object>... values) {
-        filterTextField.init(d -> {
-            this.list.getItems().setAll(d);
-            this.list.getSelectionModel().selectFirst();
+
+        filterTextField = new ZFilterer<I>(true,
+                table, is -> {
+            getList().getItems().setAll(is);
+            list.getSelectionModel().selectFirst();
         }, table.getFilterCols());
-        filterTextField.setCombined(true);
+
         getStyleClass().add("ZEntityListView");
         list.setCellFactory(param -> new ZListCell<>(values));
         getChildren().add(filterTextField);

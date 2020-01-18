@@ -1,7 +1,6 @@
 package com.jemylibs.uilib.ctrls.tables.customCols;
 
 import com.jemylibs.uilib.ctrls.tables.customCols.cells.IndecatorCell;
-
 import javafx.scene.control.TableCell;
 
 public class IndicatorCol<Item> extends col<Item, Integer> {
@@ -14,7 +13,7 @@ public class IndicatorCol<Item> extends col<Item, Integer> {
             return cell;
         });
 
-        setStyle("-fx-alignment: CENTER;");
+        setSortable(false);
     }
 
     public IndicatorCol(String title, applier<Item> val, applier<Item> min, applier<Item> max, double size) {

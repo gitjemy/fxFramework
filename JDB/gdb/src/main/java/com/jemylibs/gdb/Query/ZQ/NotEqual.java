@@ -1,6 +1,7 @@
 package com.jemylibs.gdb.Query.ZQ;
 
 import com.jemylibs.gdb.ZCOL.COL;
+import com.jemylibs.gdb.utility.StringUtils;
 
 public class NotEqual extends Condition {
     public final COL col;
@@ -16,6 +17,6 @@ public class NotEqual extends Condition {
         if (value == null) {
             return "`" + col.mtable.TableName + "`.`" + col.name + "` IS NOT NULL";
         }
-        return "`" + col.mtable.TableName + "`.`" + col.name + "`!='" + value.toString() + "'";
+        return "`" + col.mtable.TableName + "`.`" + col.name + "`!='" + StringUtils.escapeString(value.toString(), true) + "'";
     }
 }

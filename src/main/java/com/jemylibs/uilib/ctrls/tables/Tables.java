@@ -1,12 +1,12 @@
 package com.jemylibs.uilib.ctrls.tables;
 
+import com.jemylibs.gdb.ZSqlRow;
+import com.jemylibs.sedb.SETable;
+import com.jemylibs.sedb.ZCOL.SqlCol;
 import com.jemylibs.uilib.ctrls.tables.customCols.MethodCol;
 import com.jemylibs.uilib.ctrls.tables.customCols.PropertyCol;
 import com.jemylibs.uilib.ctrls.tables.customCols.col;
 import com.jemylibs.uilib.object_mapping.propertise.write.WritablePropertyControl;
-import com.jemylibs.gdb.ZSqlRow;
-import com.jemylibs.sedb.SETable;
-import com.jemylibs.sedb.ZCOL.SqlCol;
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.jemylibs.uilib.StylesManager.assertation;
+import static com.jemylibs.uilib.UIController.assertation;
+
 
 public class Tables {
     static {
@@ -53,8 +54,8 @@ public class Tables {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public static <R extends ZSqlRow> col<R, ?> create_table_col(SqlCol<R, ?> col) {
-        return new PropertyCol<>(col.getProperty().getTitle(), col.name);
+    public static <R extends ZSqlRow, V> col<R, V> create_table_col(SqlCol<R, V> col) {
+        return new PropertyCol<R, V>(col.getProperty().getTitle(), col.name);
     }
 
     public static <R> void init_un_sortable_table(TableView<R> table, col<R, ?>... cols) {

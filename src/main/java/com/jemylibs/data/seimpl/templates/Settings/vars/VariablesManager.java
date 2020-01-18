@@ -1,8 +1,5 @@
-package com.jemylibs.data.seimpl.templates.Settings;
+package com.jemylibs.data.seimpl.templates.Settings.vars;
 
-import com.jemylibs.data.seimpl.templates.Settings.db.SettingsTable;
-import com.jemylibs.data.seimpl.templates.Settings.db.Var;
-import com.jemylibs.data.seimpl.templates.Settings.db.VarValue;
 import com.jemylibs.gdb.Query.ZQ.Selector;
 import com.jemylibs.sedb.helpers.JavaSeLink;
 
@@ -17,7 +14,7 @@ public class VariablesManager {
 
     public <E> Var<E> get(String name, E defaultValue) throws Exception {
         try {
-            Integer value = (Integer) table.db.value(table.getID(), new Selector(table.getName().equal(name)));
+            Integer value = table.db.value(table.getID(), new Selector(table.getName().equal(name)));
             return new Var<>(value, this);
         } catch (Exception e) {
             VarValue<E> eVarValue = new VarValue<>();

@@ -1,10 +1,10 @@
 package com.jemylibs.uilib.ctrls.tables.customCols;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
+
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class ButtonCol<Item> extends col<Item, String> {
     private final Consumer<Item> onClick;
@@ -55,7 +55,7 @@ public class ButtonCol<Item> extends col<Item, String> {
             return cell;
         });
 
-        setStyle("-fx-alignment: CENTER-LEFT;");
+        setSortable(false);
     }
 
     public ButtonCol(String btn_text, Consumer<Item> ZGAction) {

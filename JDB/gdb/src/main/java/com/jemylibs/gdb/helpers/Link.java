@@ -19,7 +19,7 @@ import java.util.List;
 public abstract class Link<ResultSet> {
 
     public void DeleteRow(Equal id) throws SQLException {
-        String SQL = "DELETE FROM " + id.col.mtable.TableName + new Selector(id).get();
+        String SQL = "DELETE FROM " + id.col.mtable.TableName + id.toWhere().get();
         update(SQL);
     }
 
@@ -41,9 +41,9 @@ public abstract class Link<ResultSet> {
     }
 
     public <U extends ZSqlRow> U row(Equal where) throws Exception {
-        List<U> list = list(where.col.mtable, new Selector(where));
+        List<U> list = list(where.col.mtable, where == null ? null : where.toWhere());
         if (list.size() != 1) {
-            throw new ZSystemError("query of " + new Selector(where).get() + " return " + list.size() + " values");
+            throw new ZSystemError("query of " + (where == null ? "" : where.toWhere().toString()) + " return " + list.size() + " values");
         } else {
             return list.get(0);
         }
@@ -85,11 +85,11 @@ public abstract class Link<ResultSet> {
     }
 
     public <T> T value(COL<ResultSet, ?, T> col, int id) throws Exception {
-        return value(col, new Selector(col.mtable.getID().equal(id)));
+        return value(col, col.mtable.getID().equal(id).toWhere());
     }
 
     public int count(Table table, Condition condition) throws Exception {
-        return count(table, new Selector(condition));
+        return count(table, condition == null ? null : condition.toWhere());
     }
 
     abstract public void createTransaction(DBTransaction dbTransaction) throws Throwable;

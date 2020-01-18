@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 public class WritableProperty<E, V> extends Property<E, V> {
 
-    private final Writer<E, V> writer;
+    public final Writer<E, V> writer;
 
     public WritableProperty(String title, Func<E, V> reader, Writer<E, V> writer) {
         super(title, reader);

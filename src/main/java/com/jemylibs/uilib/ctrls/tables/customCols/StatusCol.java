@@ -1,22 +1,13 @@
 package com.jemylibs.uilib.ctrls.tables.customCols;
 
 import com.jemylibs.uilib.ctrls.tables.customCols.cells.StatusCell;
-import javafx.scene.control.TableCell;
 
 import java.util.function.Function;
 
-public class StatusCol<Item> extends col<Item, Integer> {
+public class StatusCol<Item, V> extends PropertyCol<Item, V> {
 
-    public StatusCol(String title, Function<Item, Status> statusFunction) {
-        super(title);
-
-        setCellFactory(tc -> {
-            TableCell cell = new StatusCell<>(statusFunction);
-            cell.setId("SSs");
-            cell.setWrapText(true);
-            return cell;
-        });
-
-        setStyle("-fx-alignment: CENTER;");
+    public StatusCol(String title, String propertyName, Function<Item, Status> statusFunction) {
+        super(title, propertyName);
+        setCellFactory(column -> new StatusCell<>(statusFunction));
     }
 }

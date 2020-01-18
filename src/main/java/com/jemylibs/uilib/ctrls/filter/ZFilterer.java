@@ -1,75 +1,71 @@
 package com.jemylibs.uilib.ctrls.filter;
 
-import com.jemylibs.uilib.utilities.alert.ZAlert;
 import com.jemylibs.gdb.Query.ZQ.Condition;
-import com.jemylibs.gdb.Query.ZQ.Like;
 import com.jemylibs.gdb.Query.ZQ.Selector;
-import com.jemylibs.gdb.ZCOL.COL;
 import com.jemylibs.gdb.ZSqlRow;
+import com.jemylibs.sedb.SETable;
 import com.jemylibs.sedb.ZCOL.SqlCol;
-import javafx.event.EventHandler;
+import com.jemylibs.uilib.utilities.alert.ZAlert;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Region;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ZFilterer<E extends ZSqlRow> extends FlowPane {
 
-    public ArrayList<Condition> hiddenConditions = new ArrayList<>();
-    private ArrayList<Filterer<E>> filterers = new ArrayList<>();
-    private Consumer<List<E>> filteredItemsConsumer;
-    private SqlCol<E, ?>[] filterCols;
-    private boolean combined = false;
+    final private SETable<E> seTable;
+    final private Consumer<List<E>> filteredItemsConsumer;
+    final private List<FILTER<?>> filterers;
 
-    public ZFilterer() {
+    public ArrayList<Condition> hiddenConditions = new ArrayList<>();
+    double itemPrefWidth = 150;
+    private Predicate<E> filter;
+
+    public ZFilterer(boolean combined, SETable<E> seTable, Consumer<List<E>> filteredItemsConsumer, FILTER<?>... filterers) {
+        this(combined, seTable, filteredItemsConsumer, new ArrayList<>(Arrays.asList(filterers)));
+    }
+
+    public ZFilterer(boolean combined, SETable<E> seTable, Consumer<List<E>> filteredItemsConsumer, List<FILTER<?>> filterers) {
+        this.seTable = seTable;
+        this.filteredItemsConsumer = filteredItemsConsumer;
         this.setVgap(5);
         this.setHgap(5);
         setAlignment(Pos.CENTER_LEFT);
         this.getStyleClass().add("z-filterer");
+        this.filterers = filterers;
+        init(combined);
     }
 
-    public void init(Consumer<List<E>> filteredItemsConsumer, SqlCol<E, ?>... filterCols) {
-        this.filteredItemsConsumer = filteredItemsConsumer;
-        this.filterCols = filterCols;
-        init();
+    public ZFilterer(boolean combined, SETable<E> seTable, Consumer<List<E>> filteredItemsConsumer, SqlCol<E, ?>... filterers) {
+        this(combined, seTable, filteredItemsConsumer, Arrays.stream(filterers).map(LikeTextFilter::new).collect(Collectors.toList()));
     }
 
-    public void init(TableView<E> table, SqlCol<E, ?>... filterCols) {
-        this.filteredItemsConsumer = d -> table.getItems().setAll(d);
-        this.filterCols = filterCols;
-        init();
+    public Predicate<E> getFilter() {
+        return filter;
     }
 
-    public void init(ListView<E> table, SqlCol<E, ?>... filterCols) {
-        this.filteredItemsConsumer = d -> table.getItems().setAll(d);
-        this.filterCols = filterCols;
-        init();
+    public void setFilter(Predicate<E> filter) {
+        this.filter = filter;
     }
 
-    public boolean isCombined() {
-        return combined;
-    }
-
-    public void setCombined(boolean combined) {
-        this.combined = combined;
-        init();
-    }
-
-    private void init() {
+    private void init(boolean combined) {
         getChildren().clear();
         if (combined) {
             initCompinedView();
         } else {
             initUncombined();
         }
+        setItemPrefWidth(itemPrefWidth);
     }
 
     private void initCompinedView() {
@@ -83,10 +79,11 @@ public class ZFilterer<E extends ZSqlRow> extends FlowPane {
             try {
                 String text = item.getText();
                 ArrayList<Condition> conditions = new ArrayList<>(hiddenConditions);
-                for (COL<?, E, ?> eSqlCol : this.filterCols) {
-                    conditions.add(new Like(eSqlCol, text));
+                for (FILTER<?> eSqlCol : this.filterers) {
+                    conditions.add(eSqlCol.getCondition(text));
                 }
-                filteredItemsConsumer.accept(filterCols[0].mtable.list(new Selector(false, conditions.toArray(new Condition[0]))));
+                List<E> list = seTable.list(new Selector(false, conditions.toArray(new Condition[0])));
+                filteredItemsConsumer.accept(filter(list));
             } catch (Exception e) {
                 ZAlert.errorHandle(e);
             }
@@ -95,56 +92,73 @@ public class ZFilterer<E extends ZSqlRow> extends FlowPane {
 
     public void rePush() {
         ArrayList<Condition> conditions = new ArrayList<>(hiddenConditions);
-        for (Filterer<E> item : filterers) {
+        for (FILTER<?> item : filterers) {
             Condition condition = item.getCondition();
             if (condition != null) {
                 conditions.add(condition);
             }
         }
         try {
+            List<E> list;
             if (!conditions.isEmpty()) {
                 Selector where = new Selector(true, conditions.toArray(new Condition[0]));
-                filteredItemsConsumer.accept(filterCols[0].mtable.list(where));
+                list = seTable.list(where);
             } else {
-                filteredItemsConsumer.accept(filterCols[0].mtable.list());
+                list = seTable.list();
             }
+            filteredItemsConsumer.accept(filter(list));
         } catch (Exception e) {
             ZAlert.errorHandle(e);
         }
     }
 
-    private void initUncombined() {
-        double itemPrefWidth = 130;
+    private final List<E> filter(List<E> list) {
+        if (filter == null)
+            return list;
+        else return list.stream().filter(filter).collect(Collectors.toList());
+    }
+
+    public void setItemPrefWidth(double itemPrefWidth) {
+        this.itemPrefWidth = itemPrefWidth;
         this.setPrefWrapLength(itemPrefWidth * 15d);
+    }
+
+    private void initUncombined() {
         getChildren().add(new Label("بحث"));
 
-        EventHandler<KeyEvent> onKeyRelease = n -> rePush();
+        Runnable onKeyRelease = this::rePush;
 
         int i = 0;
-        for (SqlCol<E, ?> filterCol : filterCols) {
-            Filterer<E> item = new Filterer<>(filterCol.getProperty().getTitle(), filterCol);
-            TextField node = item.getNode();
+
+        for (FILTER<?> item : filterers) {
+            Region node = item.getNode();
             node.setPrefWidth(itemPrefWidth);
             int finalI = i;
-            node.setOnKeyReleased(onKeyRelease);
+            item.setOnChange(onKeyRelease);
 
             node.setOnKeyPressed(event -> {
-                if (node.getText().isEmpty()) {
-                    if (event.getCode() == KeyCode.BACK_SPACE) {
+                if (event.getCode() == KeyCode.BACK_SPACE) {
+                    if (node instanceof TextInputControl) {
+                        if (((TextInputControl) node).getText().isEmpty()) {
+                            if (finalI != 0) {
+                                filterers.get(finalI - 1).getNode().requestFocus();
+                            }
+                        }
+                    } else {
                         if (finalI != 0) {
                             filterers.get(finalI - 1).getNode().requestFocus();
                         }
                     }
                 }
             });
+
             i++;
-            filterers.add(item);
             this.getChildren().add(node);
         }
     }
 
 
     public void clearTexts() {
-        this.filterers.forEach(eFilterer -> eFilterer.getNode().setText(""));
+        this.filterers.forEach(FILTER::clearValue);
     }
 }

@@ -3,6 +3,7 @@ package com.jemylibs.uilib.windows;
 import com.jemylibs.uilib.UIController;
 import com.jemylibs.uilib.ZView.ZFxml;
 import com.jemylibs.uilib.ctrls.ZMenu;
+import com.jemylibs.uilib.utilities.alert.ZAlert;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -14,7 +15,8 @@ import javafx.scene.layout.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static com.jemylibs.uilib.StylesManager.assertation;
+import static com.jemylibs.uilib.UIController.assertation;
+
 
 public class MainView implements ZFxml {
     static {
@@ -37,6 +39,7 @@ public class MainView implements ZFxml {
     @FXML
     public
     ImageView notificationImage;
+    public HBox progressBarView;
     @FXML
     ProgressBar progressBar;
     @FXML
@@ -87,7 +90,7 @@ public class MainView implements ZFxml {
         header_buttons.getChildren().clear();
         header_buttons.setVisible(false);
         notificationImage.setVisible(false);
-
+        progressBarView.setVisible(false);
     }
 
     public Button addHeaderButton(String text, EventHandler handler) {
@@ -111,4 +114,60 @@ public class MainView implements ZFxml {
         return button;
     }
 
+    public void addTask(Task task) {
+        new Thread(() -> {
+            progressBarView.setVisible(true);
+            if (task.max == -1) {
+                progressBar.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
+            } else {
+                progressBar.setProgress(0);
+            }
+            try {
+                task.runTask();
+            } catch (Throwable e) {
+                ZAlert.errorHandle(e);
+            }
+            progressBarView.setVisible(false);
+        }).start();
+    }
+
+    public boolean isInProgress() {
+        return progressBarView.isVisible();
+    }
+
+    static public abstract class Task {
+        public int max = -1;
+        int progress;
+
+        public Task(int max) {
+            this.max = max;
+        }
+
+        public Task() {
+        }
+
+        public abstract void runTask() throws Throwable;
+
+        public void setProgress(int progress) {
+            this.progress = progress;
+            double v = (double) progress / (double) max;
+            UIController.mainView.progressBar.setProgress(v);
+        }
+    }
+
+    abstract public static class LoopTask extends Task {
+        public LoopTask(int max) {
+            super(max);
+        }
+
+        @Override
+        final public void runTask() throws Throwable {
+            for (int i = 0; i < max; i++) {
+                looping(i);
+                setProgress(i);
+            }
+        }
+
+        protected abstract void looping(int i) throws Throwable;
+    }
 }

@@ -8,8 +8,7 @@ import java.util.function.Function;
 public class PropertyCol<E, V> extends col<E, V> {
     public PropertyCol(String s, String propertyName) {
         super(s);
-        setCellValueFactory(
-                new PropertyValueFactory<>(propertyName));
+        setCellValueFactory(new PropertyValueFactory<>(propertyName));
     }
 
     public PropertyCol<E, V> setShowText(Function<V, String> function) {

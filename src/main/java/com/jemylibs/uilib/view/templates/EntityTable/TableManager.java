@@ -1,6 +1,5 @@
 package com.jemylibs.uilib.view.templates.EntityTable;
 
-import com.jemylibs.gdb.ZSqlRow;
 import com.jemylibs.uilib.ZView.ZFxml;
 import com.jemylibs.uilib.ctrls.ManageBox;
 import javafx.fxml.FXML;
@@ -12,7 +11,7 @@ import javafx.scene.layout.HBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TableManager<E extends ZSqlRow> implements ZFxml {
+public class TableManager<E> implements ZFxml {
 
     public HBox controlsBox;
     @FXML
@@ -22,7 +21,7 @@ public class TableManager<E extends ZSqlRow> implements ZFxml {
 
     private Parent parent;
 
-    public static <E extends ZSqlRow> TableManager<E> create() {
+    public static <E> TableManager<E> create() {
         return ZFxml.get("/zres/fx_layout/templates/table_manager.fxml");
     }
 

@@ -22,6 +22,10 @@ public class ShowFilePath extends Dialog {
         showAndWait();
     }
 
+    public ShowFilePath(File file) {
+        this(file.getName(), file);
+    }
+
     @Override
     protected Parent getTheView() {
         Label label = new Label("مسار الملف : " + file.getAbsolutePath());

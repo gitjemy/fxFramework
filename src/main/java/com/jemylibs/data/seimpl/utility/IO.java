@@ -2,24 +2,44 @@ package com.jemylibs.data.seimpl.utility;
 
 import com.jemylibs.gdb.properties.Func;
 import com.jemylibs.gdb.properties.Property;
+import com.jemylibs.sedb.helpers.SQLiteHelper;
+import com.jemylibs.sedb.utility.JDateTime;
 import com.jemylibs.uilib.UIController;
+import com.jemylibs.uilib.utilities.ZValidate;
+import com.jemylibs.uilib.utilities.alert.Toast;
+import com.jemylibs.uilib.windows.MainView;
 import com.jemylibs.uilib.windows.ShowFilePath;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.stage.FileChooser;
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.model.enums.AesKeyStrength;
+import net.lingala.zip4j.model.enums.CompressionLevel;
+import net.lingala.zip4j.model.enums.CompressionMethod;
+import net.lingala.zip4j.model.enums.EncryptionMethod;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class IO {
+
+    private static char[] pwd = "XXMMZZ1590X1#$F``'`FSDJKFSDF@@@".toCharArray();
 
     public static void ImportDate(Node node, Consumer<ArrayList<String[]>> rowsConsumer) throws IOException, InvalidFormatException {
         FileChooser chooser = new FileChooser();
@@ -33,7 +53,6 @@ public class IO {
             rowsConsumer.accept(getSheetValues(sheet));
         }
     }
-
 
     public static ArrayList<String[]> getSheetValues(Sheet sheet) {
         try {
@@ -74,21 +93,30 @@ public class IO {
         return new ArrayList<>();
     }
 
-    public static <E> void ExportXlxs(String sheetName, String defaultFileName, List<E> list,
-                                      SheetProperty<E, ?>... properties) throws IOException {
-
+    public static File showSaveDialog(String defaultFileName, String title, String... formats) {
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("تصدير ...");
+        chooser.setTitle(title);
         chooser.getExtensionFilters().setAll(
-                new FileChooser.ExtensionFilter("excel files (*.xlsx)", "*.xlsx")
+                new FileChooser.ExtensionFilter("excel files (" + String.join(",", formats) + ")", formats)
         );
         chooser.setInitialFileName(defaultFileName);
-        File file = chooser.showSaveDialog(UIController.mainStage);
+        return chooser.showSaveDialog(UIController.mainStage);
+    }
 
+    public static File showOpenDialog(String title, String... formats) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle(title);
+        chooser.getExtensionFilters().setAll(
+                new FileChooser.ExtensionFilter("excel files (" + String.join(",", formats) + ")", formats)
+        );
+        return chooser.showOpenDialog(UIController.mainStage);
+    }
+
+    public static <E> void ExportXlxs(String sheetName, String defaultFileName, List<E> list, SheetProperty<E, ?>... properties) throws IOException {
+        File file = showSaveDialog(defaultFileName, "تصدير ...", "*.xlsx");
         if (file == null) {
             return;
         }
-
         Workbook workbook = new XSSFWorkbook();
         if (sheetName == null || sheetName.isEmpty()) {
             sheetName = "sheet";
@@ -114,45 +142,54 @@ public class IO {
         }
 //        headerRow.setHeight((short) 20);
 
-        int rowNum = 1;
 
         CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setAlignment(CellStyle.ALIGN_RIGHT);
-        for (E contact : list) {
-            Row row = sheet.createRow(rowNum++);
-            for (int i = 0; i < properties.length; i++) {
-                Cell cell = row.createCell(i);
-                cell.setCellStyle(cellStyle);
-                writeToCell(contact, cell, properties[i]);
-            }
-        }
 
 
-        headerCellStyle = workbook.createCellStyle();
-        headerCellStyle.setFont(headerFont);
-        headerCellStyle.setAlignment(CellStyle.ALIGN_RIGHT);
-        headerCellStyle.setBorderTop((short) 2);
-        headerCellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
-        headerCellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+        UIController.mainView.addTask(
+                new MainView.Task(list.size()) {
+                    @Override
+                    public void runTask() throws Throwable {
 
-        ///total
-        Row row = sheet.createRow(rowNum++);
-        for (int i = 0; i < properties.length; i++) {
-            Cell cell = row.createCell(i);
-            cell.setCellValue(properties[i].total);
-            cell.setCellStyle(headerCellStyle);
-        }
-//        row.setHeight((short) 20);
+                        int rowNum = 1;
+                        for (E contact : list) {
+                            Row row = sheet.createRow(rowNum++);
+                            for (int i = 0; i < properties.length; i++) {
+                                Cell cell = row.createCell(i);
+                                cell.setCellStyle(cellStyle);
+                                writeToCell(contact, cell, properties[i]);
+                            }
+                            setProgress(rowNum - 1);
+                        }
 
-        for (int i = 0; i < properties.length; i++) {
-            sheet.autoSizeColumn(i);
-        }
+                        CellStyle headerCellStyle = workbook.createCellStyle();
+                        headerCellStyle.setFont(headerFont);
+                        headerCellStyle.setAlignment(CellStyle.ALIGN_RIGHT);
+                        headerCellStyle.setBorderTop((short) 2);
+                        headerCellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
+                        headerCellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 
-        FileOutputStream fileOut = new FileOutputStream(file);
-        workbook.write(fileOut);
-        fileOut.close();
+                        ///total
+                        Row row = sheet.createRow(rowNum++);
+                        for (int i = 0; i < properties.length; i++) {
+                            Cell cell = row.createCell(i);
+                            cell.setCellValue(properties[i].total);
+                            cell.setCellStyle(headerCellStyle);
+                        }
+                        if (list.size() < 500)
+                            for (int i = 0; i < properties.length; i++) {
+                                sheet.autoSizeColumn(i);
+                            }
 
-        new ShowFilePath(chooser.getTitle(), file);
+                        FileOutputStream fileOut = new FileOutputStream(file);
+                        workbook.write(fileOut);
+                        fileOut.close();
+                        Platform.runLater(() -> new ShowFilePath(file));
+                    }
+                }
+        );
+
     }
 
     private static <E, V> void writeToCell(E contact, Cell cell, SheetProperty<E, V> property) {
@@ -196,6 +233,69 @@ public class IO {
         Desktop.getDesktop().open(tempDir);
     }
 
+    public static void zipFileWithPassword(List<String> srcFiles, String ZipFilePath, char[] pass) throws IOException {
+        ZipFile zipFile = new ZipFile(ZipFilePath, pass);
+        ZipParameters parameters = new ZipParameters();
+        parameters.setCompressionMethod(CompressionMethod.DEFLATE);
+        parameters.setCompressionLevel(CompressionLevel.NORMAL);
+        parameters.setEncryptFiles(true);
+
+        //Set the encryption method to AES Zip Encryption
+        parameters.setEncryptionMethod(EncryptionMethod.AES);
+
+        //AES_STRENGTH_128 - For both encryption and decryption
+        //AES_STRENGTH_192 - For decryption only
+        //AES_STRENGTH_256 - For both encryption and decryption
+        //Key strength 192 cannot be used for encryption. But if a zip file already has a
+        //file encrypted with key strength of 192, then Zip4j can decrypt this file
+        parameters.setAesKeyStrength(AesKeyStrength.KEY_STRENGTH_256);
+
+        //Now add files to the zip file
+        zipFile.addFiles(mapList(srcFiles, File::new), parameters);
+    }
+
+    public static <X, Y> List<Y> mapList(Collection<X> from, Function<? super X, ? extends Y> mapper) {
+        return from.stream().map(mapper).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public static <X, Y> List<Y> mapList(X[] from, Function<? super X, ? extends Y> mapper) {
+        return Stream.of(from).map(mapper).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    static public void exportDbs(SQLiteHelper... link) throws IOException {
+
+        File file = IO.showSaveDialog(JDateTime.addDateToFileName("HRApp", LocalDateTime.now(), ".jsef"),
+                "تصدير ...", "*.jsef");
+        if (file != null) {
+            IO.zipFileWithPassword(IO.mapList(link, SQLiteHelper::getFilePath), file.getAbsolutePath(), pwd);
+            Platform.runLater(() -> new ShowFilePath(file));
+        }
+    }
+
+    static public void importDbs(SQLiteHelper... link) throws Exception {
+        try {
+            File file = IO.showOpenDialog("إستيراد ...", "*.jsef");
+            if (file != null) {
+                if (UIController.mainView.isInProgress()) {
+                    throw new ZValidate(UIController.mainView.getProgressBar(),
+                            "Can't do this process right now,\nplease try again after application done with all tasks.");
+                }
+                for (SQLiteHelper sqLiteHelper : link) {
+                    File dbPath = new File(sqLiteHelper.getFilePath());
+                    sqLiteHelper.getConnection().close();
+                    new ZipFile(file, pwd).extractFile(dbPath.getName(), sqLiteHelper.getFilePath());
+                    sqLiteHelper.openConnection();
+                }
+                Toast.SucssesToast("إستيراد", "تم إستيراد قواعد البيانات بنجاح");
+            }
+        } catch (ZipException e) {
+            throw new Exception("!Bad File.");
+        }
+    }
+
+    static public void extractFile(File file, char[] password, String fileName, String outputFile) throws Exception {
+        ;
+    }
 
     public static class SheetProperty<E, V> extends Property<E, V> {
         private String total = "";

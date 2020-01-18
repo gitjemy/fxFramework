@@ -9,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
+import java.util.List;
+
 public class ManageBox extends HBox {
 
     public ManageBox() {
@@ -38,6 +40,7 @@ public class ManageBox extends HBox {
         setAlignment(Pos.CENTER_LEFT);
     }
 
+
     public void setActions(ObjectTitle<EventHandler<ActionEvent>>... buttons) {
         getChildren().clear();
         for (ObjectTitle<EventHandler<ActionEvent>> button : buttons) {
@@ -45,5 +48,9 @@ public class ManageBox extends HBox {
             getChildren().add(butt);
             butt.setOnAction(button.get());
         }
+    }
+
+    public void setActions(List<Button> buttons) {
+        getChildren().setAll(buttons);
     }
 }

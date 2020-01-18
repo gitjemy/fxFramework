@@ -1,6 +1,8 @@
 package com.jemylibs.sedb.ZCOL;
 
 import com.jemylibs.gdb.Query.ZQ.Equal;
+import com.jemylibs.gdb.Query.ZQ.GreaterThan;
+import com.jemylibs.gdb.Query.ZQ.LessThan;
 import com.jemylibs.gdb.ZCOL.CreateTable;
 import com.jemylibs.gdb.ZCOL.Key;
 import com.jemylibs.gdb.ZSqlRow;
@@ -22,6 +24,14 @@ public class _Date<E extends ZSqlRow> extends SqlCol<E, LocalDate> {
     @Override
     public Equal equal(LocalDate val) {
         return new Equal(this, JDateTime.DB_TIMESTAMP(val.atStartOfDay()));
+    }
+
+    public GreaterThan greaterThan(LocalDate val) {
+        return new GreaterThan(this, JDateTime.DB_TIMESTAMP(val.atStartOfDay()));
+    }
+
+    public LessThan lessThan(LocalDate val) {
+        return new LessThan(this, JDateTime.DB_TIMESTAMP(val.atStartOfDay()));
     }
 
     @Override

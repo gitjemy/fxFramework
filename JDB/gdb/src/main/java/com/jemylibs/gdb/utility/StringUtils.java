@@ -27,4 +27,8 @@ public class StringUtils {
             return name;
         }
     }
+
+    public static String escapeString(String x, boolean escapeDoubleQuotes) {
+        return x.replaceAll("'", "").replaceAll(";", "");
+    }
 }

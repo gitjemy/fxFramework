@@ -28,7 +28,6 @@ public class IndexCol<R> extends col<R, Object> {
             }
         });
         setSortable(false);
-        setStyle("-fx-alignment: CENTER-LEFT;");
         setMaxWidth(45);
     }
 }

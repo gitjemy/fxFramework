@@ -15,9 +15,9 @@ public class ImageCol<T> extends col<T, String> {
 
     public ImageCol(String title, double PrefWidth, Function<T, String> urlSupplier) {
         super(title);
-
+        setSortable(false);
         if (PrefWidth != -1) {
-            setPrefWidth(PrefWidth);
+            setPrefWidth(PrefWidth + 10);
         }
 
         setCellFactory(param -> new TableCell<T, String>() {

@@ -1,31 +1,35 @@
 package com.jemylibs.uilib.ctrls.tnd.java.tornadofx.control;
 
-import java.time.LocalDate;
-
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.EventHandler;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.input.KeyCode;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
+import java.time.LocalDate;
+
 public class DatePickerTableCell<S> extends TableCell<S, LocalDate> {
+    private final EventHandler<TableColumn.CellEditEvent<S, LocalDate>> onCommit;
     private ObjectProperty<StringConverter<LocalDate>> converter = new SimpleObjectProperty<>(this, "converter");
     private DatePicker datePicker;
 
-    public DatePickerTableCell(StringConverter<LocalDate> converter) {
+    public DatePickerTableCell(StringConverter<LocalDate> converter, EventHandler<TableColumn.CellEditEvent<S, LocalDate>> onCommit) {
+        this.onCommit = onCommit;
         setConverter(converter);
         this.getStyleClass().add("datepicker-table-cell");
     }
 
-    public static <S> Callback<TableColumn<S, LocalDate>, TableCell<S, LocalDate>> forTableColumn() {
-        return column -> new DatePickerTableCell<>(new DefaultLocalDateConverter());
+    public static <S> Callback<TableColumn<S, LocalDate>, TableCell<S, LocalDate>> forTableColumn(EventHandler<TableColumn.CellEditEvent<S, LocalDate>> onCommit) {
+        return column -> new DatePickerTableCell<>(new DefaultLocalDateConverter(), onCommit);
     }
 
-    public static <S> Callback<TableColumn<S, LocalDate>, TableCell<S, LocalDate>> forTableColumn(StringConverter<LocalDate> converter) {
-        return column -> new DatePickerTableCell<>(converter);
+    public static <S> Callback<TableColumn<S, LocalDate>, TableCell<S, LocalDate>> forTableColumn(StringConverter<LocalDate> converter, EventHandler<TableColumn.CellEditEvent<S, LocalDate>> onCommit) {
+        return column -> new DatePickerTableCell<>(converter, onCommit);
     }
 
     public void startEdit() {
@@ -42,6 +46,14 @@ public class DatePickerTableCell<S> extends TableCell<S, LocalDate> {
             setGraphic(datePicker);
             datePicker.requestFocus();
         }
+    }
+
+    @Override
+    public void commitEdit(LocalDate newValue) {
+        super.commitEdit(newValue);
+        onCommit.handle(new TableColumn.CellEditEvent(getTableView(),
+                new TablePosition(getTableView(), getIndex(), getTableColumn()), TableColumn.CellEditEvent.ANY, newValue));
+
     }
 
     public void cancelEdit() {

@@ -6,17 +6,13 @@ import java.util.ArrayList;
 
 public class Selector {
     private final ArrayList<Condition> conditions;
-    private final ArrayList<String> combine_Operators = new ArrayList();
+    private final ArrayList<String> combine_Operators = new ArrayList<String>();
     private String limits = "";
     private String orderStatement = "";
 
     public Selector(Condition cond) {
-        this.conditions = new ArrayList();
+        this.conditions = new ArrayList<Condition>();
         conditions.add(cond);
-    }
-
-    public Selector() {
-        this.conditions = new ArrayList();
     }
 
     public Selector(boolean combined, Condition... conditions) {

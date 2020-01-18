@@ -1,7 +1,5 @@
-package com.jemylibs.data.seimpl.templates.Settings.db;
+package com.jemylibs.data.seimpl.templates.Settings.vars;
 
-
-import com.jemylibs.data.seimpl.templates.Settings.VariablesManager;
 
 public class Var<E> {
     final int id;

@@ -45,7 +45,7 @@ public abstract class Table<Item extends ZSqlRow, Resultset,
     }
 
     public long count() throws Exception {
-        return this.db.count(this, new Selector());
+        return this.db.count(this, (Condition) null);
     }
 
     public Item fromResultSet(Resultset res) throws Exception {
@@ -137,7 +137,7 @@ public abstract class Table<Item extends ZSqlRow, Resultset,
     }
 
     public List<Item> list(Condition where) throws Exception {
-        return db.list(this, new Selector(where));
+        return db.list(this, where == null ? null : where.toWhere());
     }
 
     public List<Item> list() throws Exception {
@@ -166,6 +166,6 @@ public abstract class Table<Item extends ZSqlRow, Resultset,
 
 
     public Item getItem(Condition condition) throws Exception {
-        return getItem(new Selector(condition));
+        return getItem(condition == null ? null : condition.toWhere());
     }
 }
