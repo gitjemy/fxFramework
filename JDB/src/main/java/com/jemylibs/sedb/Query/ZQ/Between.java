@@ -31,7 +31,6 @@ public class Between extends Condition {
             Timestamp toF = Timestamp.valueOf(to);
             val = "`" + mCol.mtable.TableName + "`.`" + mCol.name + "` Between '" + toF.getTime() + "' and '" + fromF.getTime() + "'";
         }
-        System.out.println("between : " + val);
         return val;
     }
 

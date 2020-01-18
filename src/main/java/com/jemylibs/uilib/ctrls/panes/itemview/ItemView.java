@@ -2,9 +2,6 @@ package com.jemylibs.uilib.ctrls.panes.itemview;
 
 import com.jemylibs.uilib.ctrls.panes.PropertyPane;
 import com.jemylibs.uilib.ctrls.panes.PropertyPaneItem;
-
-import java.util.function.Function;
-
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -13,13 +10,15 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class ItemView<I> extends StackPane {
+import java.util.function.Function;
+
+public class ItemView<E> extends StackPane {
     final private PropertyPane mItemPane = new PropertyPane();
     final private Label title = new Label();
     final private Label sub_title = new Label();
 
-    private Function<I, String> sub_title_value;
-    private Item<I, ?>[] mItems;
+    private Function<E, String> sub_title_value;
+    private Item<E, ?>[] mItems;
 
     {
         ///title-view
@@ -49,11 +48,11 @@ public class ItemView<I> extends StackPane {
         super();
     }
 
-    public void init(String main_tile, Function<I, String> sub_title, Item<I, ?>... itms) {
+    public void init(String main_tile, Function<E, String> sub_title, Item<E, ?>... itms) {
         mItems = itms;
         PropertyPaneItem[] views = new PropertyPaneItem[itms.length];
         for (int i = 0; i < itms.length; i++) {
-            Item<I, ?> itm = itms[i];
+            Item<E, ?> itm = itms[i];
             views[i] = new PropertyPaneItem<>(itm.getText(), itm.getView());
         }
         mItemPane.setItems(views);
@@ -61,20 +60,16 @@ public class ItemView<I> extends StackPane {
         this.title.setText(main_tile);
     }
 
-    public void view(I i) {
+    public void view(E i) {
         if (i != null) {
-            try {
-                sub_title.setText(sub_title_value.apply(i));
-                for (Item<I, ?> mItem : mItems) {
-                    mItem.item_update(i);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            sub_title.setText(sub_title_value.apply(i));
+            for (Item<E, ?> mItem : mItems) {
+                mItem.item_update(i);
             }
         }
     }
 
-    public void bind(SelectionModel<I> model) {
+    public void bind(SelectionModel<E> model) {
         model.selectedItemProperty().addListener((observable, oldValue, newValue) -> view(newValue));
     }
 }

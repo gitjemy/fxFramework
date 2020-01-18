@@ -15,9 +15,7 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License
 
-package com.jemylibs.uilib.utilities.icon.decorator;
-
-import com.jemylibs.uilib.utilities.icon.IconDecorator;
+package com.jemylibs.uilib.utilities.icon.fontIconLib.decorator;
 
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -25,22 +23,23 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
 /**
+ *
  * @author adrian
  */
 public class ShadowHigh implements IconDecorator {
-
+    
     private final Color shadow;
-
+    
     public ShadowHigh(Color shadow) {
         this.shadow = shadow;
-    }
-
+    }   
+    
     public ShadowHigh() {
         this.shadow = Color.BLACK;
     }
-
+    
     @Override
-    public void decorate(Shape s) {
+    public void decorate(Shape s) {  
 
         DropShadow dropShadow = new DropShadow();
         dropShadow.setBlurType(BlurType.ONE_PASS_BOX);
@@ -48,7 +47,7 @@ public class ShadowHigh implements IconDecorator {
         dropShadow.setOffsetX(0.0);
         dropShadow.setOffsetY(0.0);
         dropShadow.setColor(this.shadow.deriveColor(1.0, 1.0, 1.0, 0.5));
-
+        
         s.setEffect(dropShadow);
     }
 }

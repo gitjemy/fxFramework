@@ -38,7 +38,6 @@ public class zhtmlComponent extends ArrayList<zhtmlItem> implements zhtmlItem {
     }
 
     public void setHidden(boolean hidden) {
-        System.out.println(this + " : become " + hidden);
         this.hidden = hidden;
     }
 

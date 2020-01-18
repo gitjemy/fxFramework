@@ -15,29 +15,16 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License
 
-package com.jemylibs.uilib.utilities.icon.decorator;
+package com.jemylibs.uilib.utilities.icon.fontIconLib.decorator;
 
-import com.jemylibs.uilib.utilities.icon.IconDecorator;
-
-import javafx.animation.Animation;
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
-import javafx.scene.CacheHint;
 import javafx.scene.shape.Shape;
-import javafx.util.Duration;
 
 /**
+ *
  * @author adrian
  */
-public class Rotate implements IconDecorator {
-    @Override
-    public void decorate(Shape s) {
-        s.setCacheHint(CacheHint.ROTATE);
-        RotateTransition rt = new RotateTransition(Duration.millis(1000), s);
-        rt.setFromAngle(0);
-        rt.setToAngle(360);
-        rt.setCycleCount(Animation.INDEFINITE);
-        rt.setInterpolator(Interpolator.LINEAR);
-        rt.play();
-    }
+@FunctionalInterface
+public interface IconDecorator {
+    
+    public void decorate(Shape s);
 }

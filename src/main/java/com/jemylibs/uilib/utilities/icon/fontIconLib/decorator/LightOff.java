@@ -13,22 +13,33 @@
 //     distributed under the License is distributed on an "AS IS" BASIS,
 //     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //     See the License for the specific language governing permissions and
-//     limitations under the License.
+//     limitations under the License
 
-package com.jemylibs.uilib.utilities.icon;
+package com.jemylibs.uilib.utilities.icon.fontIconLib.decorator;
 
-import javafx.geometry.VPos;
-import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 
 /**
+ *
  * @author adrian
  */
-public class Icon extends Text {
-    private Icon() {
-        setTextOrigin(VPos.TOP);
+public class LightOff implements IconDecorator {
+    
+    private final Color fill;
+    
+    public LightOff(Color fill) {
+        this.fill = fill;
     }
-
-    public static Icon create() {
-        return new Icon();
+    
+    public LightOff() {
+        this(Color.DARKGREY);
+    }
+    
+    @Override
+    public void decorate(Shape s) {
+        s.setFill(fill);
+        s.setStrokeWidth(1.0);
+        s.setStroke(Color.GREY);
     }
 }

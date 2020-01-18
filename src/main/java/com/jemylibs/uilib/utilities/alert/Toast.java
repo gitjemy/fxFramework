@@ -2,10 +2,6 @@ package com.jemylibs.uilib.utilities.alert;
 
 import com.jemylibs.uilib.UIController;
 import com.jemylibs.uilib.ZView.ZFxml;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -19,6 +15,9 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 public class Toast implements ZFxml {
     @FXML
     public Button close_but;
@@ -26,9 +25,6 @@ public class Toast implements ZFxml {
     Parent parent;
     @FXML
     private Label title_label, content_label;
-
-    @FXML
-    private Label type_label;
 
 
     public static Tooltip SucssesToast(String Title, String Txt) {
@@ -96,7 +92,6 @@ public class Toast implements ZFxml {
     public void fill(Type type, String title, String content) {
         this.title_label.setText(title);
         this.content_label.setText(content);
-        type_label.setText(type.text);
         parent.getStyleClass().add(type.style);
     }
 

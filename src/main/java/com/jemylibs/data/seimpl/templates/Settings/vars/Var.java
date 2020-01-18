@@ -18,7 +18,7 @@ public class Var<E> {
         }
     }
 
-    public void setValue(E e) {
+    public void setValue(E e) throws Exception {
         variablesManager.Update(this, e);
     }
 

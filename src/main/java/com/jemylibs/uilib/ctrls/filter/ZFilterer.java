@@ -6,6 +6,8 @@ import com.jemylibs.gdb.ZSqlRow;
 import com.jemylibs.sedb.SETable;
 import com.jemylibs.sedb.ZCOL.SqlCol;
 import com.jemylibs.uilib.utilities.alert.ZAlert;
+import com.jemylibs.uilib.utilities.icon.fontIconLib.IconBuilder;
+import com.jemylibs.uilib.utilities.icon.fontIconLib.support.FontAwesome;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -73,6 +75,7 @@ public class ZFilterer<E extends ZSqlRow> extends FlowPane {
 
         TextField item = new TextField();
         item.setPromptText("بحث");
+
         this.getChildren().add(item);
 
         item.setOnKeyReleased(r -> {
@@ -124,7 +127,10 @@ public class ZFilterer<E extends ZSqlRow> extends FlowPane {
     }
 
     private void initUncombined() {
-        getChildren().add(new Label("بحث"));
+        Label label = new Label("بحث");
+        label.setGraphic(IconBuilder.menu_bar(FontAwesome.FA_FILTER));
+
+        getChildren().add(label);
 
         Runnable onKeyRelease = this::rePush;
 

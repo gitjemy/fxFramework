@@ -1,6 +1,9 @@
 package com.jemylibs.uilib.html.base;
 
 import com.jemylibs.data.seimpl.utility.IO;
+import com.jemylibs.uilib.utilities.alert.ZAlert;
+
+import java.io.IOException;
 
 public class ZHtmlPage extends zhtmlComponent {
 
@@ -25,7 +28,11 @@ public class ZHtmlPage extends zhtmlComponent {
     }
 
     public void appendStyle(StringBuilder builder) {
-        builder.append(IO.ReadFileFromRecourse("/html/css/w3.css", ZHtmlPage.class));
-        builder.append(IO.ReadFileFromRecourse("/html/css/ovvw3.css", ZHtmlPage.class));
+        try {
+            builder.append(IO.readFileFromRecourse("/html/css/w3.css", ZHtmlPage.class));
+            builder.append(IO.readFileFromRecourse("/html/css/ovvw3.css", ZHtmlPage.class));
+        } catch (IOException e) {
+            ZAlert.errorHandle(e);
+        }
     }
 }

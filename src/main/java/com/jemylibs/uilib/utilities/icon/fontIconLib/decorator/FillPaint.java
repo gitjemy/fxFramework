@@ -15,45 +15,24 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License
 
-package com.jemylibs.uilib.utilities.icon.decorator;
+package com.jemylibs.uilib.utilities.icon.fontIconLib.decorator;
 
-import com.jemylibs.uilib.utilities.icon.IconDecorator;
-
-import javafx.scene.effect.DropShadow;
-import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 
 /**
+ *
  * @author adrian
  */
-public class LightOn implements IconDecorator {
-
-    private final Color fill;
-    private final Color bright;
-
-    public LightOn(Color fill, Color bright) {
-        this.fill = fill;
-        this.bright = bright;
+public class FillPaint implements IconDecorator {
+    
+    private final Paint paint;
+    
+    public FillPaint(Paint paint) {
+        this.paint = paint;
     }
-
-    public LightOn(Color fill) {
-        this(fill, fill);
-    }
-
-    public LightOn() {
-        this(Color.YELLOW);
-    }
-
     @Override
     public void decorate(Shape s) {
-        s.setFill(fill);
-        s.setStrokeWidth(1.0);
-        s.setStroke(Color.GRAY);
-
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setRadius(10.0);
-        dropShadow.setSpread(0.52);
-        dropShadow.setColor(bright);
-        s.setEffect(dropShadow);
+        s.setFill(paint);
     }
 }

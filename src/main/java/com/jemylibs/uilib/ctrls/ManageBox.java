@@ -1,6 +1,8 @@
 package com.jemylibs.uilib.ctrls;
 
 import com.jemylibs.data.seimpl.utility.ObjectTitle;
+import com.jemylibs.uilib.utilities.icon.fontIconLib.IconBuilder;
+import com.jemylibs.uilib.utilities.icon.fontIconLib.support.FIcon;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -8,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 
 import java.util.List;
 
@@ -41,16 +44,33 @@ public class ManageBox extends HBox {
     }
 
 
-    public void setActions(ObjectTitle<EventHandler<ActionEvent>>... buttons) {
+    public void setActions(MBB... buttons) {
         getChildren().clear();
-        for (ObjectTitle<EventHandler<ActionEvent>> button : buttons) {
-            Button butt = new Button(button.getTitle());
-            getChildren().add(butt);
-            butt.setOnAction(button.get());
+        for (MBB button : buttons) {
+            getChildren().add(button.create());
         }
     }
 
     public void setActions(List<Button> buttons) {
         getChildren().setAll(buttons);
+    }
+
+    public static class MBB extends ObjectTitle<EventHandler<ActionEvent>> {
+        private final FIcon icon;
+
+        public MBB(String title, FIcon icon, EventHandler<ActionEvent> actionEventEventHandler) {
+            super(title, actionEventEventHandler);
+            this.icon = icon;
+        }
+
+        public MBB(String title, EventHandler<ActionEvent> actionEventEventHandler) {
+            this(title, null, actionEventEventHandler);
+        }
+
+        private Button create() {
+            Button butt = new Button(getTitle(), icon == null ? null : IconBuilder.button(icon, Color.WHITE));
+            butt.setOnAction(get());
+            return butt;
+        }
     }
 }

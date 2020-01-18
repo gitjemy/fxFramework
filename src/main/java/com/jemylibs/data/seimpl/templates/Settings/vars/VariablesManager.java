@@ -25,14 +25,10 @@ public class VariablesManager {
         }
     }
 
-    public <E> void Update(Var<E> var, E e) {
-        try {
-            VarValue byId = table.getById(var.getId());
-            byId.setValue(e);
-            table.update(byId);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
+    public <E> void Update(Var<E> var, E e) throws Exception {
+        VarValue byId = table.getById(var.getId());
+        byId.setValue(e);
+        table.update(byId);
     }
 
     public <E> E getValue(Var eVar) throws Exception {

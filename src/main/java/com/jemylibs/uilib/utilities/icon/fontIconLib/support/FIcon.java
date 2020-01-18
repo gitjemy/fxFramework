@@ -1,5 +1,5 @@
 //    FontIcon is a JavaFX library to use FontIcons
-//    Copyright (C) 2016 Adrián Romero Corchado.
+//    Copyright (C) 2014-2016 Adrián Romero Corchado.
 //
 //    This file is part of FontIcon
 //
@@ -15,16 +15,23 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 
-package com.jemylibs.uilib.utilities.icon;
+package com.jemylibs.uilib.utilities.icon.fontIconLib.support;
+
+import javafx.scene.text.Font;
 
 /**
  * @author adrian
  */
-public interface IconFontExt extends IconFont {
+public interface FIcon {
+
+    static String load(String fileName) {
+        return Font.loadFont(FontAwesome.class.getResourceAsStream("/zres/fonts/iconsfonts/" + fileName), 10.0).getName();
+    }
+
+    String getFontName();
 
     char getChar();
 
-    @Override
     default String getString() {
         return Character.toString(getChar());
     }

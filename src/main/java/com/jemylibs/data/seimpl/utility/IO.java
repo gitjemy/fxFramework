@@ -55,42 +55,38 @@ public class IO {
     }
 
     public static ArrayList<String[]> getSheetValues(Sheet sheet) {
-        try {
-            int rows; // No of rows
-            rows = sheet.getPhysicalNumberOfRows();
-            Row row;
-            Cell cell;
-            int cols = 0; // No of columns
-            int tmp;
-            // This trick ensures that we get the data properly even if it doesn't start from first few rows
-            for (int i = 0; i < 10 || i < rows; i++) {
-                row = sheet.getRow(i);
-                if (row != null) {
-                    tmp = sheet.getRow(i).getPhysicalNumberOfCells();
-                    if (tmp > cols) cols = tmp;
-                }
-            }
-            ArrayList<String[]> data = new ArrayList<>();
-            DataFormatter df = new DataFormatter();
 
-            for (int r = 0; r < rows; r++) {
-                row = sheet.getRow(r);
-                String[] rowData = new String[cols];
-                if (row != null) {
-                    for (short c = 0; c < cols; c++) {
-                        cell = row.getCell(c);
-                        if (cell != null) {
-                            rowData[c] = df.formatCellValue(cell);
-                        }
+        int rows; // No of rows
+        rows = sheet.getPhysicalNumberOfRows();
+        Row row;
+        Cell cell;
+        int cols = 0; // No of columns
+        int tmp;
+        // This trick ensures that we get the data properly even if it doesn't start from first few rows
+        for (int i = 0; i < 10 || i < rows; i++) {
+            row = sheet.getRow(i);
+            if (row != null) {
+                tmp = sheet.getRow(i).getPhysicalNumberOfCells();
+                if (tmp > cols) cols = tmp;
+            }
+        }
+        ArrayList<String[]> data = new ArrayList<>();
+        DataFormatter df = new DataFormatter();
+
+        for (int r = 0; r < rows; r++) {
+            row = sheet.getRow(r);
+            String[] rowData = new String[cols];
+            if (row != null) {
+                for (short c = 0; c < cols; c++) {
+                    cell = row.getCell(c);
+                    if (cell != null) {
+                        rowData[c] = df.formatCellValue(cell);
                     }
                 }
-                data.add(rowData);
             }
-            return data;
-        } catch (Exception ioe) {
-            ioe.printStackTrace();
+            data.add(rowData);
         }
-        return new ArrayList<>();
+        return data;
     }
 
     public static File showSaveDialog(String defaultFileName, String title, String... formats) {
@@ -202,23 +198,19 @@ public class IO {
         myWriter.close();
     }
 
-    static public String ReadFileFromRecourse(String FileName, Object FileClass) {
+    static public String readFileFromRecourse(String FileName, Object FileClass) throws IOException {
         String Content = "";
-        Content = ReadFileFromRecourse(new InputStreamReader(FileClass.getClass().getResourceAsStream(FileName), StandardCharsets.UTF_8));
+        Content = readFileFromRecourse(new InputStreamReader(FileClass.getClass().getResourceAsStream(FileName), StandardCharsets.UTF_8));
         return Content;
     }
 
-    static public String ReadFileFromRecourse(Reader reader) {
+    static public String readFileFromRecourse(Reader reader) throws IOException {
         String content = "";
         StringBuffer temp = new StringBuffer(1024);
         char[] buffer = new char[1024];
         int read;
-        try {
-            while ((read = reader.read(buffer, 0, buffer.length)) != -1) {
-                temp.append(buffer, 0, read);
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        while ((read = reader.read(buffer, 0, buffer.length)) != -1) {
+            temp.append(buffer, 0, read);
         }
         content = temp.toString();
         return content;

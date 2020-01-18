@@ -1,8 +1,8 @@
 package com.jemylibs.uilib.ctrls.panes.itemview;
 
-import java.util.function.Function;
-
 import javafx.scene.control.Label;
+
+import java.util.function.Function;
 
 public class StringItem<T> extends Item<T, Label> {
     final private Function<T, String> value;

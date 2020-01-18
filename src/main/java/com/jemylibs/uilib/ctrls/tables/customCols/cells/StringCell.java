@@ -15,14 +15,9 @@ public class StringCell<T, X> extends Cell<T, X> {
         super.updateItem(item, empty);
         if (!empty) {
             T currentItem = getCurrentItem();
-            try {
-                String s = value.apply(currentItem);
-                if (s != null) {
-                    setText(s);
-                }
-            } catch (Exception e) {
-                System.out.println("error in " + getTableColumn().getText() + "\n" + e.getMessage());
-                e.printStackTrace();
+            String s = value.apply(currentItem);
+            if (s != null) {
+                setText(s);
             }
         } else {
             setText("");

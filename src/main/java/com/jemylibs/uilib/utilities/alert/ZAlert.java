@@ -29,7 +29,7 @@ public interface ZAlert {
                 if (error instanceof ZSystemError) {
                     title = ((ZSystemError) error).getTitle();
                 } else {
-                    title = "حدث خطأ";
+                    title = "Error";
                 }
                 if (UIController.mainStage != null && UIController.mainStage.isShowing()) {
                     Toast.ErrorToast(title, error.getMessage());
@@ -116,6 +116,36 @@ public interface ZAlert {
             wait.play();
         }
 
+        static void ShowGuideTip(Node node, Node graphic, String Text) {
+            if (node.getScene() == null) {
+                Toast.JToast(node.getAccessibleText(), Text, Toast.Type.Fine, Duration.millis(180));
+                return;
+            }
+            node.requestFocus();
+            Tooltip S = new Tooltip(Text);
+            S.setGraphic(graphic);
+            S.getStyleClass().add("GuideToolTip");
+            Bounds boundsInScreen = node.localToScreen(node.getBoundsInLocal());
+            double CX = boundsInScreen.getMaxX();
+            double CY = boundsInScreen.getMinY();
+            S.show(node, CX, CY - 40);
+            double area = boundsInScreen.getWidth() * boundsInScreen.getHeight();
+            if (area < 20000) {
+                FadeTransition FT = new FadeTransition(Duration.millis(180), node);
+                FT.setFromValue(.7);
+                FT.setToValue(1);
+                FT.setCycleCount(5);
+                FT.setAutoReverse(true);
+                FT.play();
+            }
+            node.setStyle("-fx-focus-color: Black;");
+            PauseTransition wait = new PauseTransition(Duration.seconds(6));
+            wait.setOnFinished((e) -> {
+                S.hide();
+                node.setStyle(null);
+            });
+            wait.play();
+        }
 //</editor-fold>
     }
 
