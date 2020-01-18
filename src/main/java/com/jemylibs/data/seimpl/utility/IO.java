@@ -6,7 +6,6 @@ import com.jemylibs.sedb.helpers.SQLiteHelper;
 import com.jemylibs.sedb.utility.JDateTime;
 import com.jemylibs.uilib.UIController;
 import com.jemylibs.uilib.utilities.ZValidate;
-import com.jemylibs.uilib.utilities.alert.Toast;
 import com.jemylibs.uilib.windows.MainView;
 import com.jemylibs.uilib.windows.ShowFilePath;
 import javafx.application.Platform;
@@ -255,7 +254,6 @@ public class IO {
     }
 
     static public void exportDbs(SQLiteHelper... link) throws IOException {
-
         File file = IO.showSaveDialog(JDateTime.addDateToFileName("HRApp", LocalDateTime.now(), ".jsef"),
                 "تصدير ...", "*.jsef");
         if (file != null) {
@@ -275,10 +273,12 @@ public class IO {
                 for (SQLiteHelper sqLiteHelper : link) {
                     File dbPath = new File(sqLiteHelper.getFilePath());
                     sqLiteHelper.getConnection().close();
-                    new ZipFile(file, pwd).extractFile(dbPath.getName(), sqLiteHelper.getFilePath());
+                    String name = dbPath.getName();
+                    ZipFile zipFile = new ZipFile(file, pwd);
+
+                    zipFile.extractFile(name, dbPath.getParentFile().getAbsolutePath());
                     sqLiteHelper.openConnection();
                 }
-                Toast.SucssesToast("إستيراد", "تم إستيراد قواعد البيانات بنجاح");
             }
         } catch (ZipException e) {
             throw new Exception("!Bad File.");
