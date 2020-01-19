@@ -1,17 +1,35 @@
 package com.jemylibs.uilib;
 
-import com.jemylibs.data.seimpl.utility.IO;
-import com.jemylibs.sedb.helpers.SQLiteHelper;
-import com.jemylibs.sedb.utility.JDateTime;
 import com.jemylibs.uilib.windows.MainView;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public abstract class Application extends javafx.application.Application {
+    static Application[] applications;
+
+    ResourceBundle bundle;
+
+    public Application(Locale locale) {
+        bundle = ResourceBundle.getBundle("com.jemylibs.i18n.Constants", locale);
+
+        applications = new Application[]{this};
+    }
+
+    public static Application getApplication() {
+        return applications[0];
+    }
+
+    public static Application[] getApplications() {
+        return applications;
+    }
+
+    public ResourceBundle getBundle() {
+        return bundle;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -20,6 +38,9 @@ public abstract class Application extends javafx.application.Application {
 
         configureMainView(UIController.mainView);
         primaryStage.setScene(new Scene(UIController.mainView.view));
+        UIController.mainStage.getIcons().setAll(new Image("/zres/images/Icons/app-icon.png"));
+
+        UIController.mainView.MenuBar.getMenus().clear();
         startApp(UIController.mainStage);
     }
 

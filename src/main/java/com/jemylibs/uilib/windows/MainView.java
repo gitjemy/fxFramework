@@ -54,7 +54,6 @@ public class MainView implements ZFxml {
     }
 
     public void init() {
-        SetTitle("حسابات الاستاذ");
         UpdateBackground();
     }
 

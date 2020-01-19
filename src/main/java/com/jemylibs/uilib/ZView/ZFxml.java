@@ -1,19 +1,19 @@
 package com.jemylibs.uilib.ZView;
 
+import com.jemylibs.uilib.Application;
 import com.jemylibs.uilib.utilities.alert.ZAlert;
-
-import java.io.IOException;
-
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+
+import java.io.IOException;
 
 public interface ZFxml extends Initializable {
 
     static <U extends ZFxml> U get(String path) {
         U controller = null;
         try {
-            FXMLLoader L = new FXMLLoader(ZFxml.class.getResource(path));
+            FXMLLoader L = new FXMLLoader(ZFxml.class.getResource(path), Application.getApplication().getBundle());
             Parent load = L.load();
             controller = L.getController();
             controller.setView(load);
@@ -24,7 +24,7 @@ public interface ZFxml extends Initializable {
     }
 
     static Parent get(String path, Initializable con) {
-        FXMLLoader L = new FXMLLoader(ZFxml.class.getResource(path));
+        FXMLLoader L = new FXMLLoader(ZFxml.class.getResource(path), Application.getApplication().getBundle());
         L.setController(con);
         Parent load = null;
         try {
@@ -36,8 +36,7 @@ public interface ZFxml extends Initializable {
     }
 
     static Parent get(String path, ZFxml con) {
-        System.err.println(path);
-        FXMLLoader L = new FXMLLoader(ZFxml.class.getResource(path));
+        FXMLLoader L = new FXMLLoader(ZFxml.class.getResource(path), Application.getApplication().getBundle());
         L.setController(con);
         Parent load = null;
         try {
