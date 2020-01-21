@@ -7,7 +7,9 @@ import com.jemylibs.uilib.view.ZSystemView;
 import com.jemylibs.uilib.windows.MainView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -169,5 +171,18 @@ public class UIController {
         } catch (Exception e) {
 //                    System.out.println("I/O Error: " + e.getMessage());
         }
+    }
+
+    public static Scene createScene(Parent view) {
+        Scene scene = new Scene(view);
+        NodeOrientation orientation = (NodeOrientation) Application.getApplication().getBundle().getObject("Orientation");
+        scene.rootProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                newValue.setNodeOrientation(orientation);
+            }
+        });
+        scene.setNodeOrientation(orientation);
+        scene.getRoot().setNodeOrientation(orientation);
+        return scene;
     }
 }

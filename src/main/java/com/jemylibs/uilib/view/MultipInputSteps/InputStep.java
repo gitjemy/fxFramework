@@ -1,8 +1,9 @@
 package com.jemylibs.uilib.view.MultipInputSteps;
 
+import com.jemylibs.uilib.Application;
 import com.jemylibs.uilib.ctrls.panes.PropertyPane;
-
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -21,7 +22,6 @@ public abstract class InputStep extends VBox {
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
-        setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
         setSpacing(10.0);
         setPadding(new Insets(10.0));
         getChildren().add(TopPane);

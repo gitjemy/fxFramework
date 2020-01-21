@@ -24,8 +24,6 @@ public abstract class MultipleInputsSteps extends MultipleInputsStepsBase {
     SimpleIntegerProperty Index;
 
     public MultipleInputsSteps() {
-        setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-
         this.Steps = FXCollections.observableArrayList();
         initSteps(Steps);
         Index = new SimpleIntegerProperty(-1);

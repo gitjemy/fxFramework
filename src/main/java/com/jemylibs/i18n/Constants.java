@@ -9,10 +9,15 @@ public class Constants extends ListResourceBundle {
     private Object[][] contents = {
             //// Layouts
             {"AppName", "Jemy Apps demo App"},
-            {"Orientation", NodeOrientation.LEFT_TO_RIGHT.name()},
-            /////Texts
-            {"price", new Double(75.00)},
-            {"currency", "DKK"},
+            {"OrientationName", NodeOrientation.LEFT_TO_RIGHT.name()},
+            {"Orientation", NodeOrientation.LEFT_TO_RIGHT},
+
+            //Dialogs
+            {"Button_Ok", "Ok"},
+            {"Button_Cancel", "Cancel"},
+            {"Button_Yes", "Yes"},
+            {"Button_No", "No"},
+            {"Danger", "!Be aware"},
     };
 
     @Override

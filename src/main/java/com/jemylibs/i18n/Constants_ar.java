@@ -9,11 +9,15 @@ public class Constants_ar extends ListResourceBundle {
     private Object[][] contents = {
             //// Layouts
             {"AppName", "برامج جيمي : التجربة"},
-            {"Orientation", NodeOrientation.RIGHT_TO_LEFT.name()},
+            {"OrientationName", NodeOrientation.RIGHT_TO_LEFT.name()},
+            {"Orientation", NodeOrientation.RIGHT_TO_LEFT},
 
             /////Texts
-            {"price", new Double(75.00)},
-            {"currency", "DKK"},
+            {"Button_Ok", "موافق"},
+            {"Button_Cancel", "إلغاء"},
+            {"Button_Yes", "نعم"},
+            {"Button_No", "لا"},
+            {"Danger", "إنتبه"},
 
     };
 

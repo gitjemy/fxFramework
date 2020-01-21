@@ -1,7 +1,6 @@
 package com.jemylibs.uilib;
 
 import com.jemylibs.uilib.windows.MainView;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -15,7 +14,6 @@ public abstract class Application extends javafx.application.Application {
 
     public Application(Locale locale) {
         bundle = ResourceBundle.getBundle("com.jemylibs.i18n.Constants", locale);
-
         applications = new Application[]{this};
     }
 
@@ -35,9 +33,8 @@ public abstract class Application extends javafx.application.Application {
     public void start(Stage primaryStage) throws Exception {
         UIController.mainStage = primaryStage;
         UIController.mainView = MainView.getInstance();
-
         configureMainView(UIController.mainView);
-        primaryStage.setScene(new Scene(UIController.mainView.view));
+        primaryStage.setScene(UIController.createScene(UIController.mainView.view));
         UIController.mainStage.getIcons().setAll(new Image("/zres/images/Icons/app-icon.png"));
 
         UIController.mainView.MenuBar.getMenus().clear();

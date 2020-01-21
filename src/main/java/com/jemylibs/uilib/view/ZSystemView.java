@@ -2,15 +2,14 @@ package com.jemylibs.uilib.view;
 
 import com.jemylibs.uilib.ZView.containers.ZBasedWindow;
 import com.jemylibs.uilib.ZView.containers.ZTb;
+import javafx.scene.Parent;
 
 import java.util.ArrayList;
-
-import javafx.scene.Parent;
 
 public abstract class ZSystemView implements ZBaseSystemView {
 
     public static ArrayList<ZBaseSystemView> openedDialogs = new ArrayList<>();
-    ZBasedWindow mZBasedWindow = null;
+    private ZBasedWindow mZBasedWindow = null;
 
     protected boolean canOpen() {
         return true; // todo make this method abstract

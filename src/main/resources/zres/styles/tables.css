@@ -54,12 +54,12 @@
 
 .table-view .remove_button {
     -fx-background-radius: 11em;
-    -fx-base: #bbb;
+    -fx-base: #ff3d64 !important;
     -fx-size: 1.5em;
-    -fx-text-fill: red;
+    -fx-text-fill: #a73135;
     -fx-padding: -2 2 0 3;
     -fx-alignment: CENTER;
-
+    -fx-border-color: #ff8200;
     -fx-pref-width: -fx-size;
     -fx-pref-height: -fx-size;
     -fx-min-width: -fx-size;

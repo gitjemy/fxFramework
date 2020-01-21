@@ -34,7 +34,9 @@ public interface ZAlert {
                 if (UIController.mainStage != null && UIController.mainStage.isShowing()) {
                     Toast.ErrorToast(title, error.getMessage());
                 } else {
-                    Dialog.ErrorAlert(error.getMessage());
+                    Dialog.ErrorAlert(error.getMessage(), error.toString() + "\n" +
+                            (error.getCause() != null ? error.getCause().getMessage() : "")
+                    );
                 }
             }
         } catch (Exception e) {

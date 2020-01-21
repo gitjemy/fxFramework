@@ -2,9 +2,7 @@ package com.jemylibs.uilib.ZView.containers;
 
 import com.jemylibs.uilib.UIController;
 import com.jemylibs.uilib.view.ZNode;
-import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -22,16 +20,16 @@ public abstract class ZBasedWindow implements ZNode {
 
     void initForShow() {
         this.stage = UIController.register_stage(new Stage());
+        this.stage.initModality(Modality.WINDOW_MODAL);
+
         this.stage.setOnCloseRequest(r -> {
             onClose();
             UIController.unregister_stage(stage);
         });
+
         this.stage.setTitle(title);
-        this.stage.initModality(Modality.WINDOW_MODAL);
         Parent view = getView();
-        view.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-        Scene scene = new Scene(view);
-        stage.setScene(scene);
+        stage.setScene(UIController.createScene(view));
     }
 
     public Stage getStage() {
