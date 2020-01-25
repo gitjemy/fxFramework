@@ -1,7 +1,10 @@
 package com.jemylibs.uilib.ctrls.tables.customCols;
 
+import com.jemylibs.uilib.utilities.icon.fontIconLib.IconBuilder;
+import com.jemylibs.uilib.utilities.icon.fontIconLib.support.FIcon;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
+import javafx.scene.paint.Color;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -20,11 +23,13 @@ public class ButtonCol<Item> extends col<Item, String> {
                 Button button = new Button();
 
                 {
+                    button.getStyleClass().add("button-cell");
                     if (style_class != null) {
                         button.getStyleClass().add(style_class);
                     }
                     setText(null);
                     button.setOnAction(event -> doAction(getCurrentItem()));
+                    onNewButtonCreated(button);
                 }
 
                 public Item getCurrentItem() {
@@ -58,6 +63,51 @@ public class ButtonCol<Item> extends col<Item, String> {
         setSortable(false);
     }
 
+    public ButtonCol(String title, FIcon btn_text, Consumer<Item> ZGAction) {
+        super(title);
+        this.onClick = ZGAction;
+        setCellFactory(tc -> {
+            TableCell cell = new TableCell<Item, Object>() {
+                Button button = new Button();
+
+                {
+                    button.getStyleClass().addAll("icon-button-cell", "button-cell");
+                    button.setOnAction(event -> doAction(getCurrentItem()));
+                    button.setGraphic(IconBuilder.button(btn_text, Color.WHITE));
+                    onNewButtonCreated(button);
+                    setText(null);
+                }
+
+                public Item getCurrentItem() {
+                    return getTableView().getItems().get(getIndex());
+                }
+
+                @Override
+                protected void updateItem(Object item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (!empty) {
+                        Item currentItem = getCurrentItem();
+                        if (currentItem == null) {
+                            setGraphic(null);
+                        } else {
+                            if (showButton.apply(currentItem)) {
+                                setGraphic(button);
+                            } else {
+                                setGraphic(null);
+                            }
+                        }
+                    } else {
+                        setGraphic(null);
+                    }
+                }
+            };
+            cell.setWrapText(true);
+            return cell;
+        });
+
+        setSortable(false);
+    }
+
     public ButtonCol(String btn_text, Consumer<Item> ZGAction) {
         this(btn_text, btn_text, null, ZGAction);
     }
@@ -69,6 +119,10 @@ public class ButtonCol<Item> extends col<Item, String> {
     public ButtonCol(String btn_text, Consumer<Item> ZGAction, double size) {
         this(btn_text, btn_text, null, ZGAction);
         setPrefWidth(size);
+    }
+
+    public void onNewButtonCreated(Button button) {
+
     }
 
     public void doAction(Item item) {

@@ -50,9 +50,7 @@ public class DemoApp extends Application {
 
                 Tables.init_table(objectTableView,
                         new IndexCol<>(),
-                        new RemoveButtonCol<>(fontAwesome -> Dialog.WarningAlert("askd jka", " aksjdhjk", event -> {
-                            Dialog.Alert("asdkljasd", "aksldj kl");
-                        })),
+                        new RemoveButtonCol<>(fontAwesome -> Dialog.WarningAlert("askd jka", " aksjdhjk", event -> Dialog.Alert("asdkljasd", "aksldj kl"))),
                         new PropertyCol<>("Font Name", "fontName"),
                         new PropertyCol<>("Char", "char"),
                         new MethodCol<>("name", FontAwesome::toString),

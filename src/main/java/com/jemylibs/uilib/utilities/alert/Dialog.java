@@ -44,7 +44,7 @@ public class Dialog {
         }
     }
 
-    public static AlertResult WarningAlert(String title, String content) {
+    public static boolean WarningAlert(String title, String content) {
         Alert ds = new Alert(Alert.AlertType.WARNING);
         ds.getDialogPane().getStyleClass().add("ZAlert");
         ds.getDialogPane().setNodeOrientation((NodeOrientation) Application.getApplication().getBundle().getObject("Orientation"));
@@ -54,11 +54,7 @@ public class Dialog {
         ds.setContentText(content + ".");
         ds.getButtonTypes().setAll(Cancel, Ok);
         Optional<ButtonType> Res = ds.showAndWait();
-        if (Res.get() == Ok) {
-            return AlertResult.Positive;
-        } else {
-            return AlertResult.Negative;
-        }
+        return Res.get() == Ok;
     }
 
     public static void Alert(String title, String content) {

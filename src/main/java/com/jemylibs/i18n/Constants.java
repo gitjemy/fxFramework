@@ -18,6 +18,8 @@ public class Constants extends ListResourceBundle {
             {"Button_Yes", "Yes"},
             {"Button_No", "No"},
             {"Danger", "!Be aware"},
+            {"Add", "Add"},
+
     };
 
     @Override

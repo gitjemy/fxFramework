@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 public class ImageCol<T> extends col<T, String> {
 
-    public ImageCol(String title, double PrefWidth, Function<T, String> urlSupplier) {
+    public ImageCol(String title, double PrefWidth, Function<T, Image> urlSupplier) {
         super(title);
         setSortable(false);
         if (PrefWidth != -1) {
@@ -56,12 +56,11 @@ public class ImageCol<T> extends col<T, String> {
                 if (!empty) {
                     setGraphic(imageView);
                     try {
-                        String image_url = urlSupplier.apply(getCurrentItem());
-                        if (image_url != null && !image_url.isEmpty()) {
-                            Image image = new Image(image_url);
-                            imageView.setImage(image);
-                            double w = image.getWidth();
-                            double h = image.getHeight();
+                        Image image_url = urlSupplier.apply(getCurrentItem());
+                        if (image_url != null) {
+                            imageView.setImage(image_url);
+                            double w = image_url.getWidth();
+                            double h = image_url.getHeight();
                             if (w > h) {
                                 imageView.setViewport(new Rectangle2D((w - h) / 2, 0, h, h));
                             } else {
@@ -78,7 +77,7 @@ public class ImageCol<T> extends col<T, String> {
         });
     }
 
-    public ImageCol(String title, Function<T, String> imageUrlSupplier) {
+    public ImageCol(String title, Function<T, Image> imageUrlSupplier) {
         this(title, 50, imageUrlSupplier);
     }
 }

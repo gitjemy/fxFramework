@@ -25,6 +25,7 @@ import javafx.scene.text.Text;
  * @author adrian
  */
 public class Icon extends Text {
+
     public final static Icon create() {
         return new Icon();
     }

@@ -18,6 +18,7 @@ public class Constants_ar extends ListResourceBundle {
             {"Button_Yes", "نعم"},
             {"Button_No", "لا"},
             {"Danger", "إنتبه"},
+            {"Add", "إضافة"},
 
     };
 

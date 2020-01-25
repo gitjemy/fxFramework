@@ -35,7 +35,6 @@ public class IconBuilder implements Builder<Icon> {
     private Icon icon;
 
     public static IconBuilder create(FIcon iconf, double size) {
-
         IconBuilder builder = new IconBuilder();
         builder.icon = Icon.create();
         builder.icon.getProperties().put("ICONLABEL", iconf.toString());
@@ -55,17 +54,13 @@ public class IconBuilder implements Builder<Icon> {
     }
 
     public static Icon menu_bar(FIcon icon) {
-        return create(icon, 15.0)
-                .color(new Color(0 / 255f, 0 / 255f, 0 / 255f, 0.71)).build();
+        Icon build = create(icon, 15.0)
+                .color(new Color(0 / 255f, 0 / 255f, 0 / 255f, 0.65)).build();
+        return build;
     }
 
     public static Icon button(FIcon icon, Color color) {
         return create(icon, 15.0).color(color).build();
-    }
-
-    @Override
-    public Icon build() {
-        return icon;
     }
 
     public IconBuilder iconFont(FIcon iconf) {
@@ -74,6 +69,12 @@ public class IconBuilder implements Builder<Icon> {
         icon.setFont(Font.font(iconf.getFontName(), icon.getFont().getSize()));
         return this;
     }
+
+    @Override
+    public Icon build() {
+        return icon;
+    }
+
 
     public IconBuilder iconAwesome(FontAwesome iconf) {
         return iconFont(iconf);
