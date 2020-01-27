@@ -1,85 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-
-<VBox id="MainStage" fx:id="MainPane" alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="520.0" prefWidth="811.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jemylibs.uilib.windows.MainView">
+<VBox id="MainStage" fx:id="MainPane" alignment="TOP_CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="520.0"
+      prefWidth="811.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.jemylibs.uilib.windows.MainView">
     <AnchorPane id="header" VBox.vgrow="NEVER">
         <HBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" HBox.hgrow="ALWAYS">
             <children>
-                <MenuBar fx:id="MenuBar" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" styleClass="jfx-rippler" HBox.hgrow="ALWAYS">
+                <MenuBar fx:id="MenuBar" maxHeight="-Infinity" maxWidth="1.7976931348623157E308"
+                         styleClass="jfx-rippler" HBox.hgrow="ALWAYS">
                     <Menu mnemonicParsing="false" text="Unspecified Menu">
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                        <MenuItem mnemonicParsing="false" text="Action 1"/>
                         <Menu mnemonicParsing="false" text="Unspecified Menu">
-                            <MenuItem mnemonicParsing="false" text="Action 1" />
-                            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                            <MenuItem mnemonicParsing="false" text="Action 1"/>
+                            <MenuItem mnemonicParsing="false" text="Unspecified Action"/>
                         </Menu>
-                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                        <MenuItem mnemonicParsing="false" text="Unspecified Action"/>
                     </Menu>
                     <Menu mnemonicParsing="false" text="Unspecified Menu">
                         <Menu mnemonicParsing="false" text="Unspecified Menu">
-                            <MenuItem mnemonicParsing="false" text="Action 1" />
-                            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                            <MenuItem mnemonicParsing="false" text="Action 1"/>
+                            <MenuItem mnemonicParsing="false" text="Unspecified Action"/>
+                            <MenuItem mnemonicParsing="false" text="Unspecified Action"/>
                         </Menu>
-                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                        <MenuItem mnemonicParsing="false" text="Unspecified Action"/>
+                        <MenuItem mnemonicParsing="false" text="Action 1"/>
+                        <MenuItem mnemonicParsing="false" text="Unspecified Action"/>
+                        <MenuItem mnemonicParsing="false" text="Unspecified Action"/>
                     </Menu>
                     <Menu mnemonicParsing="false" text="Unspecified Menu">
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                        <MenuItem mnemonicParsing="false" text="Action 1"/>
                     </Menu>
                 </MenuBar>
                 <HBox alignment="CENTER">
 
-                    <ImageView fx:id="notificationImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fx:id="notificationImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                               preserveRatio="true">
                         <image>
-                            <Image url="@../../images/Icons/notification.png" />
+                            <Image url="@../../images/Icons/notification.png"/>
                         </image>
                     </ImageView>
 
-                    <HBox fx:id="progressBarView" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="10.0" styleClass="header-buttons">
-                        <ProgressBar fx:id="progressBar" maxHeight="15.0" minHeight="15.0" prefHeight="15.0" progress="0.87">
+                    <HBox fx:id="progressBarView" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
+                          spacing="10.0" styleClass="header-buttons">
+                        <ProgressBar fx:id="progressBar" maxHeight="15.0" minHeight="15.0" prefHeight="15.0"
+                                     progress="0.87">
                             <HBox.margin>
-                                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
                             </HBox.margin>
                         </ProgressBar>
                         <padding>
-                            <Insets left="10.0" right="10.0" />
+                            <Insets left="10.0" right="10.0"/>
                         </padding>
                     </HBox>
-                    <HBox fx:id="header_buttons" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="10.0" styleClass="header-buttons">
+                    <HBox fx:id="header_buttons" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
+                          spacing="10.0" styleClass="header-buttons">
 
-                        <Button text="إعادة تحميل" />
+                        <Button text="إعادة تحميل"/>
                         <padding>
-                            <Insets left="10.0" right="10.0" />
+                            <Insets left="10.0" right="10.0"/>
                         </padding>
                     </HBox>
                     <Label id="app-title" fx:id="app_title" text="App name" HBox.hgrow="ALWAYS">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                 </HBox>
             </children>
         </HBox>
     </AnchorPane>
-    <TabPane fx:id="MainStageTabPane" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">
-        <tabs>
-            <Tab text="محمد جمال للحسابات" />
-            <Tab text="Untitled Tab" />
-        </tabs>
+    <TabPane fx:id="MainStageTabPane" styleClass="main-view-tab-pane" tabClosingPolicy="ALL_TABS" VBox.vgrow="ALWAYS">
+        <Tab text="محمد جمال للحسابات"/>
+        <Tab text="Untitled Tab"/>
     </TabPane>
-    <stylesheets>
-        <URL value="@../../styles/main_scene.css" />
-        <URL value="@../../styles/general.css" />
-        <URL value="@../../styles/custom_controls.css" />
-        <URL value="@../../styles/z_item_view.css" />
-        <URL value="@../../styles/tabs.css" />
-        <URL value="@../../styles/tables.css" />
-    </stylesheets>
+    <!--    <stylesheets>-->
+    <!--        <URL value="@../../styles/main_scene.css"/>-->
+    <!--        <URL value="@../../styles/general.css"/>-->
+    <!--        <URL value="@../../styles/custom_controls.css"/>-->
+    <!--        <URL value="@../../styles/z_item_view.css"/>-->
+    <!--        <URL value="@../../styles/tabs.css"/>-->
+    <!--        <URL value="@../../styles/tables.css"/>-->
+    <!--    </stylesheets>-->
 </VBox>

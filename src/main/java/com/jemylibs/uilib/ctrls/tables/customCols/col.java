@@ -1,5 +1,6 @@
 package com.jemylibs.uilib.ctrls.tables.customCols;
 
+import com.jemylibs.uilib.utilities.icon.fontIconLib.support.FIcon;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 
@@ -32,6 +33,11 @@ abstract public class col<T, X> extends TableColumn<T, X> {
                 }
             }
         });
+        return this;
+    }
+
+    public col<T, X> icon(FIcon icon) {
+        setGraphic(icon.menu());
         return this;
     }
 }

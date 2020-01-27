@@ -53,6 +53,8 @@ public class Dialog {
         ds.setHeaderText(title);
         ds.setContentText(content + ".");
         ds.getButtonTypes().setAll(Cancel, Ok);
+        ds.setOnShown(event -> {
+        });
         Optional<ButtonType> Res = ds.showAndWait();
         return Res.get() == Ok;
     }

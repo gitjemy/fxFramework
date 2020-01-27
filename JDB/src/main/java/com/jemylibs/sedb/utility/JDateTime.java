@@ -1,7 +1,9 @@
 package com.jemylibs.sedb.utility;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public interface JDateTime {
@@ -49,4 +51,9 @@ public interface JDateTime {
     static String addDateToFileName(String prefix, LocalDateTime now, String suffix) {
         return prefix + "_" + file_name_date_formatter.format(now) + suffix;
     }
+
+    static String formatLongDate(long value) {
+        return str_date(LocalDateTime.ofInstant(Instant.ofEpochMilli(value), ZoneId.systemDefault()));
+    }
+
 }

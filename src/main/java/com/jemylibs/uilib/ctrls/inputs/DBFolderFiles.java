@@ -1,12 +1,10 @@
 package com.jemylibs.uilib.ctrls.inputs;
 
+import com.jemylibs.sedb.utility.JDateTime;
 import com.jemylibs.uilib.Application;
 import com.jemylibs.uilib.ctrls.ManageBox;
 import com.jemylibs.uilib.ctrls.tables.Tables;
-import com.jemylibs.uilib.ctrls.tables.customCols.ButtonCol;
-import com.jemylibs.uilib.ctrls.tables.customCols.IndexCol;
-import com.jemylibs.uilib.ctrls.tables.customCols.PropertyCol;
-import com.jemylibs.uilib.ctrls.tables.customCols.RemoveButtonCol;
+import com.jemylibs.uilib.ctrls.tables.customCols.*;
 import com.jemylibs.uilib.utilities.alert.Dialog;
 import com.jemylibs.uilib.utilities.alert.ZAlert;
 import com.jemylibs.uilib.utilities.icon.fontIconLib.support.FontAwesome;
@@ -24,12 +22,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-public class DbFolderFiles extends StackPane {
+public class DBFolderFiles extends StackPane {
     private final File dir;
     TableManager<File> tableManager = TableManager.create();
 
-    public DbFolderFiles(File dir) {
+    public DBFolderFiles(File dir) {
         this.dir = dir;
+        dir.mkdirs();
         TableView<File> table = tableManager.getTable();
         PropertyCol<File, String> col = new PropertyCol<>("إسم الملف", "name");
 
@@ -41,21 +40,16 @@ public class DbFolderFiles extends StackPane {
                         file.delete();
                     }
                     refresh();
-                }), new ButtonCol<>("فتح اللف", FontAwesome.FA_FLASH, e -> {
+                }),
+                col,
+                new MethodCol<>("تارريج", File::lastModified).setShowText(JDateTime::formatLongDate),
+                new ButtonCol<>("فتح اللف", FontAwesome.FA_FLASH::menu, e -> {
                     try {
                         Desktop.getDesktop().open(e);
                     } catch (IOException ex) {
                         ZAlert.errorHandle(ex);
                     }
-                }),
-                new ButtonCol<>("فتح الحافظة", FontAwesome.FA_FOLDER_OPEN, e -> {
-                    try {
-                        Desktop.getDesktop().open(dir);
-                    } catch (IOException ex) {
-                        ZAlert.errorHandle(ex);
-                    }
-                }),
-                col
+                })
         );
 
         col.setCellFactory(param -> new TableCell<File, String>() {
@@ -76,34 +70,41 @@ public class DbFolderFiles extends StackPane {
         getChildren().add(tableManager.getParent());
 
 
-        tableManager.getManage_box().setActions(new ManageBox.MBB(Application.getResourceString("Add"), event -> {
-
-            FileChooser chooser = new FileChooser();
-            chooser.setTitle("Select File ...");
-
-            File file = chooser.showOpenDialog(getScene().getWindow());
-
-            if (file != null) {
-                try {
-                    File file1 = new File(dir.getAbsolutePath() + "/" + file.getName());
-
-                    if (!file1.exists()) {
-                        Files.copy(file.toPath(), file1.toPath());
-                    } else if (Dialog.WarningAlert("إنتبه", "هذا الملف موجود من قبل وسوف يتم إستبداله بالملف الجديد" + "\n" +
-                            "هل انت متأكد أنك تريد الاستبدال")) {
-                        Files.copy(file.toPath(), file1.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        tableManager.getManage_box().setActions(
+                new ManageBox.MBB(Application.getResourceString("Add"), FontAwesome.FA_PLUS_CIRCLE, event -> {
+                    FileChooser chooser = new FileChooser();
+                    chooser.setTitle("Select File ...");
+                    File file = chooser.showOpenDialog(getScene().getWindow());
+                    if (file != null) {
+                        try {
+                            File file1 = new File(dir.getAbsolutePath() + "/" + file.getName());
+                            if (!file1.exists()) {
+                                Files.copy(file.toPath(), file1.toPath());
+                            } else if (Dialog.WarningAlert("إنتبه", "هذا الملف موجود من قبل وسوف يتم إستبداله بالملف الجديد" + "\n" +
+                                    "هل انت متأكد أنك تريد الاستبدال")) {
+                                Files.copy(file.toPath(), file1.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            }
+                            refresh();
+                        } catch (IOException e) {
+                            ZAlert.errorHandle(e);
+                        }
                     }
-                    refresh();
-                } catch (IOException e) {
-                    ZAlert.errorHandle(e);
-                }
-            }
-        }));
+                }),
+                new ManageBox.MBB("فتح الحافظة", FontAwesome.FA_FOLDER_O, file -> {
+                    try {
+                        Desktop.getDesktop().open(dir);
+                    } catch (IOException ex) {
+                        ZAlert.errorHandle(ex);
+                    }
+                })
+        );
         refresh();
     }
 
     private void refresh() {
-        File[] files = dir.listFiles();
-        tableManager.getTable().getItems().setAll(files);
+        if (dir.exists()) {
+            File[] files = dir.listFiles();
+            tableManager.getTable().getItems().setAll(files);
+        }
     }
 }

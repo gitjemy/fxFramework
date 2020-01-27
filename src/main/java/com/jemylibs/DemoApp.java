@@ -8,7 +8,6 @@ import com.jemylibs.uilib.ctrls.tables.customCols.MethodCol;
 import com.jemylibs.uilib.ctrls.tables.customCols.PropertyCol;
 import com.jemylibs.uilib.ctrls.tables.customCols.RemoveButtonCol;
 import com.jemylibs.uilib.utilities.alert.Dialog;
-import com.jemylibs.uilib.utilities.icon.fontIconLib.IconBuilder;
 import com.jemylibs.uilib.utilities.icon.fontIconLib.support.FontAwesome;
 import com.jemylibs.uilib.view.ZSystemView;
 import com.jemylibs.uilib.windows.MainView;
@@ -70,7 +69,7 @@ public class DemoApp extends Application {
         }
         new ssd().openAsTab();
 
-        mainView.addMenu(new Menu("Settings", IconBuilder.menu_bar(FontAwesome.FA_COGS),
+        mainView.addMenu(new Menu("Settings", FontAwesome.FA_COGS.menu(),
                 new ZMenu("asd", event -> {
                     new ssd().openAsDialog();
                 }),

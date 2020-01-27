@@ -53,15 +53,6 @@ public class IconBuilder implements Builder<Icon> {
         return builder;
     }
 
-    public static Icon menu_bar(FIcon icon) {
-        Icon build = create(icon, 15.0)
-                .color(new Color(0 / 255f, 0 / 255f, 0 / 255f, 0.65)).build();
-        return build;
-    }
-
-    public static Icon button(FIcon icon, Color color) {
-        return create(icon, 15.0).color(color).build();
-    }
 
     public IconBuilder iconFont(FIcon iconf) {
         icon.getProperties().put("ICONLABEL", iconf.toString());

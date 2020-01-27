@@ -1,7 +1,8 @@
 package com.jemylibs.uilib.ctrls;
 
 import com.jemylibs.data.seimpl.utility.ObjectTitle;
-import com.jemylibs.uilib.utilities.icon.fontIconLib.IconBuilder;
+import com.jemylibs.gdb.properties.Func;
+import com.jemylibs.uilib.utilities.ZValidate;
 import com.jemylibs.uilib.utilities.icon.fontIconLib.support.FIcon;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,10 +10,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ManageBox extends HBox {
 
@@ -67,8 +70,12 @@ public class ManageBox extends HBox {
             this(title, null, actionEventEventHandler);
         }
 
+        public <E> MBB(String title, FIcon icon, TableView<E> tableView, Consumer<E> consumer) {
+            this(title, icon, d -> ZValidate.do_if_selected(tableView.getSelectionModel(), tableView, consumer));
+        }
+
         private Button create() {
-            Button butt = new Button(getTitle(), icon == null ? null : IconBuilder.button(icon, Color.WHITE));
+            Button butt = new Button(getTitle(), icon == null ? null : icon.mk(Color.WHITE));
             butt.setOnAction(get());
             return butt;
         }

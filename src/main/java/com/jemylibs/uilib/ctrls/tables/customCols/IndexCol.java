@@ -1,5 +1,6 @@
 package com.jemylibs.uilib.ctrls.tables.customCols;
 
+import com.jemylibs.uilib.utilities.icon.fontIconLib.support.FontAwesome;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -29,5 +30,6 @@ public class IndexCol<R> extends col<R, Object> {
         });
         setSortable(false);
         setMaxWidth(45);
+        icon(FontAwesome.FA_SORT_ASC);
     }
 }

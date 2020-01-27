@@ -99,7 +99,7 @@ public class UIController {
         if (scene != null) {
             if (debugcss) {
                 String path = "file:///D:/Workstation/NEWSYSTEMS/fxframework/src/main/resources/";
-                System.out.println(path);
+
                 scene.getStylesheets().setAll(
                         path + "zres/styles/custom_controls.css",
                         path + "zres/styles/general.css",
@@ -108,6 +108,8 @@ public class UIController {
                         path + "zres/styles/tabs.css",
                         path + "zres/styles/z_item_view.css"
                 );
+
+                System.out.println("new css styles loaded - count now : ");
             } else {
                 scene.getStylesheets().setAll(
                         "/zres/styles/custom_controls.css",

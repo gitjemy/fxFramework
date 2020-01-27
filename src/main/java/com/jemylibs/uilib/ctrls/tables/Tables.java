@@ -3,10 +3,8 @@ package com.jemylibs.uilib.ctrls.tables;
 import com.jemylibs.gdb.ZSqlRow;
 import com.jemylibs.sedb.SETable;
 import com.jemylibs.sedb.ZCOL.SqlCol;
-import com.jemylibs.uilib.ctrls.tables.customCols.MethodCol;
 import com.jemylibs.uilib.ctrls.tables.customCols.PropertyCol;
 import com.jemylibs.uilib.ctrls.tables.customCols.col;
-import com.jemylibs.uilib.object_mapping.propertise.write.WritablePropertyControl;
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,12 +61,6 @@ public class Tables {
         for (col<R, ?> col : cols) {
             col.setSortable(false);
         }
-    }
-
-    public static <E> ArrayList<col<E, ?>> fromProperties(WritablePropertyControl<E, ?, ?>... controls) {
-        return Stream.of(controls)
-                .map(e -> new MethodCol<>(e.getTitle(), e.property.getReader()))
-                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public static void setTableHeightByRowCount(TableView table, ObservableList data) {

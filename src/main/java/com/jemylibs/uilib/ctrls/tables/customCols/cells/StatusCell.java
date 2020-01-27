@@ -16,9 +16,12 @@ public class StatusCell<Item, V> extends Cell<Item, V> {
     protected void updateItem(V item, boolean empty) {
         super.updateItem(item, empty);
         if (!empty) {
-            Item currentItem = getCurrentItem();
-            Status status = statusFunction.apply(currentItem);
-            setGraphic(status.createLabel());
+            Status currentItem = statusFunction.apply(getCurrentItem());
+            if (currentItem == null) {
+                setGraphic(null);
+            } else {
+                setGraphic(currentItem.createLabel());
+            }
         } else {
             setText("");
             setGraphic(null);

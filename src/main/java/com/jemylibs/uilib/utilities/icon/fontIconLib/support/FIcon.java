@@ -17,6 +17,9 @@
 
 package com.jemylibs.uilib.utilities.icon.fontIconLib.support;
 
+import com.jemylibs.uilib.utilities.icon.fontIconLib.Icon;
+import com.jemylibs.uilib.utilities.icon.fontIconLib.IconBuilder;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 /**
@@ -28,11 +31,25 @@ public interface FIcon {
         return Font.loadFont(FontAwesome.class.getResourceAsStream("/zres/fonts/iconsfonts/" + fileName), 10.0).getName();
     }
 
+
     String getFontName();
 
     char getChar();
 
     default String getString() {
         return Character.toString(getChar());
+    }
+
+    default Icon menu() {
+        return IconBuilder.create(this, 15.0)
+                .color(new Color(0 / 255f, 0 / 255f, 0 / 255f, 0.65)).build();
+    }
+
+    default Icon mk(int size, Color color) {
+        return IconBuilder.create(this, size).color(color).build();
+    }
+
+    default Icon mk(Color color) {
+        return IconBuilder.create(this, 14).color(color).build();
     }
 }

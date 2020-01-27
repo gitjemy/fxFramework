@@ -1,30 +1,25 @@
 package com.jemylibs.uilib.ctrls.tables.customCols;
 
-import com.jemylibs.uilib.ctrls.tables.customCols.cells.StringCell;
-import com.jemylibs.gdb.properties.Func;
+import com.jemylibs.uilib.ctrls.tnd.java.tornadofx.table.MethodValueFactory;
 
 import java.util.function.Function;
 
-public class MethodCol<T, X> extends col<T, X> {
-
-    public MethodCol(String title, Function<T, X> function, double PrefWidth) {
+public class MethodCol<E, V> extends col<E, V> {
+    public MethodCol(String title, Function<E, V> function, double PrefWidth) {
         super(title);
         if (PrefWidth != -1) {
             setPrefWidth(PrefWidth);
         }
-        setCellFactory(tc -> new StringCell<>(r -> {
-            X apply = function.apply(r);
-            if (apply == null) {
-                return "";
+        setCellValueFactory(new MethodValueFactory<E, V>() {
+            @Override
+            public V apply(E o) {
+                return function.apply(o);
             }
-            return apply + "";
-        }));
-        setSortable(false);
+        });
     }
 
-
-    public MethodCol(String s, Func<T, X> function) {
-        this(s, function::apply, -1);
+    public MethodCol(String s, Function<E, V> function) {
+        this(s, function, -1);
     }
 
 }

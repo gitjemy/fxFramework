@@ -16,7 +16,6 @@
 }
 
 .table-cell {
-    -fx-padding: 8 5 5 5;
     -fx-border-width: 0;
     -fx-alignment: CENTER-LEFT;
 }
@@ -53,24 +52,60 @@
 /*indicator*/
 
 /*buttons*/
+.button-col {
+    -fx-padding: 5 2 2 2;
+}
+
+.image-col {
+    -fx-padding: 20 20 20 20;
+}
 
 .table-view .button-cell {
-    -fx-size: 1em;
-
-    -fx-pref-height: -fx-size;
-    -fx-max-height: -fx-size;
-    -fx-min-height: -fx-size;
+    -fx-size: 2em;
+    -fx-padding: 0 2 2 2;
+    /*-fx-pref-height: -fx-size;*/
+    /*-fx-max-height: -fx-size;*/
+    /*-fx-min-height: -fx-size;*/
+    -fx-base: #3a3a3a !important;
+    /*-fx-background-color: #3300ff;*/
 }
 
 .table-view .icon-button-cell {
-    -fx-background-radius: 11em;
-    -fx-base: #0d2cff !important;
-    -fx-text-fill: #a73135;
-    -fx-padding: -2 2 0 3;
+    -fx-size: 1.6em !important;
+    -fx-base: #ffffff !important;
+    -fx-padding: 0 2 2 2;
     -fx-alignment: CENTER;
-    -fx-border-color: #ff8200;
-
     -fx-pref-width: -fx-size;
     -fx-min-width: -fx-size;
     -fx-max-width: -fx-size;
+    -fx-border-width: 1;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+}
+
+.table-view .icon-button-cell.text-button-cell {
+    -fx-size: 1.6em !important;
+    -fx-base: #14b4ff !important;
+    -fx-padding: 3 8 3 8;
+    -fx-alignment: CENTER;
+    -fx-pref-width: -1;
+    -fx-min-width: -1;
+    -fx-max-width: -1;
+}
+
+.RemoveButtonCol .icon-button-cell {
+    -fx-base: #ff5568 !important;
+    -fx-border-radius: 50em;
+    -fx-background-radius: 50em;
+}
+
+.status-col-cell {
+    -fx-base-colors: derive(-fx-base, 15%);
+    -fx-background-color: -fx-base-colors;
+    -fx-border-color: -fx-base;
+    -fx-border-width: 2 8 2 8;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-text-fill: ladder(-fx-base, white 70%, black 50%);
+    -fx-padding: 2 8 2 8;
 }

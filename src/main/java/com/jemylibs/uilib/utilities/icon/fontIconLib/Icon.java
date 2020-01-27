@@ -17,19 +17,23 @@
 
 package com.jemylibs.uilib.utilities.icon.fontIconLib;
 
+import com.jemylibs.uilib.utilities.icon.fontIconLib.support.FIcon;
 import javafx.geometry.VPos;
 import javafx.scene.text.Text;
 
 /**
- *
  * @author adrian
  */
 public class Icon extends Text {
 
+    FIcon fIcon;
+
+    {
+        setTextOrigin(VPos.TOP);
+    }
+
+
     public final static Icon create() {
         return new Icon();
     }
-    private Icon() {
-        setTextOrigin(VPos.TOP);
-    } 
 }

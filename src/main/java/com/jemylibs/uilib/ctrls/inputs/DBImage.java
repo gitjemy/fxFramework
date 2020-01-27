@@ -22,14 +22,14 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 
-public class DbImage extends VBox {
+public class DBImage extends VBox {
 
     final ImageView imageView = new ImageView();
     public Button selectFile = new Button("...");
     public Button deleteImage = new Button("X");
     File imagePath;
 
-    public DbImage(String title, String imagesDir, String imageId) {
+    public DBImage(String title, String imagesDir, int imageSize, String imageId) {
         File dir = new File(imagesDir);
         if (!dir.exists()) {
             dir.mkdirs();
@@ -49,7 +49,7 @@ public class DbImage extends VBox {
         hBox.setSpacing(10);
         hBox.setAlignment(Pos.CENTER);
         Rectangle rectangle = new Rectangle();
-        int imageSize = 160;
+
         rectangle.setX(0);
         rectangle.setY(0);
         rectangle.setWidth(imageSize);

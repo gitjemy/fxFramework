@@ -1,79 +1,64 @@
 package com.jemylibs.uilib.ctrls.tables.customCols;
 
-import com.jemylibs.uilib.utilities.icon.fontIconLib.IconBuilder;
-import com.jemylibs.uilib.utilities.icon.fontIconLib.support.FIcon;
+import com.jemylibs.uilib.utilities.icon.fontIconLib.Icon;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
-import javafx.scene.paint.Color;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ButtonCol<Item> extends col<Item, String> {
+
     private final Consumer<Item> onClick;
     private Function<Item, Boolean> showButton = e -> true;
     private Function<Item, String> getButtonText;
+    private int buttonSize = -1;
+    private String baseColor;
 
-    public ButtonCol(String title, String btn_text, String style_class, Consumer<Item> ZGAction) {
-        super(title);
-        this.onClick = ZGAction;
-        getButtonText = d -> btn_text;
-        setCellFactory(tc -> {
-            TableCell cell = new TableCell<Item, Object>() {
-                Button button = new Button();
-
-                {
-                    button.getStyleClass().add("button-cell");
-                    if (style_class != null) {
-                        button.getStyleClass().add(style_class);
-                    }
-                    setText(null);
-                    button.setOnAction(event -> doAction(getCurrentItem()));
-                    onNewButtonCreated(button);
-                }
-
-                public Item getCurrentItem() {
-                    return (Item) getTableView().getItems().get(getIndex());
-                }
-
-                @Override
-                protected void updateItem(Object item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (!empty) {
-                        Item currentItem = getCurrentItem();
-                        if (currentItem == null) {
-                            setGraphic(null);
-                        } else {
-                            if (showButton.apply(currentItem)) {
-                                button.setText(getButtonText.apply(currentItem));
-                                setGraphic(button);
-                            } else {
-                                setGraphic(null);
-                            }
-                        }
-                    } else {
-                        setGraphic(null);
-                    }
-                }
-            };
-            cell.setWrapText(true);
-            return cell;
-        });
-
+    {
         setSortable(false);
+        getStyleClass().add("button-col");
     }
 
-    public ButtonCol(String title, FIcon btn_text, Consumer<Item> ZGAction) {
+    public ButtonCol(String title, Supplier<Icon> btn_icn, Consumer<Item> ZGAction) {
+        this(title, (Function<Item, String>) null, btn_icn, ZGAction);
+    }
+
+    public ButtonCol(String title, String txt, Consumer<Item> ZGAction) {
+        this(title, item -> txt, null, ZGAction);
+    }
+
+    public ButtonCol(String title, String txt, Supplier<Icon> btn_icn, Consumer<Item> ZGAction) {
+        this(title, item -> txt, btn_icn, ZGAction);
+    }
+
+    public ButtonCol(String title, Function<Item, String> btn_txt, Supplier<Icon> btn_icn, Consumer<Item> ZGAction) {
         super(title);
         this.onClick = ZGAction;
+        getButtonText = btn_txt;
+
         setCellFactory(tc -> {
             TableCell cell = new TableCell<Item, Object>() {
-                Button button = new Button();
+                Button button;
 
-                {
-                    button.getStyleClass().addAll("icon-button-cell", "button-cell");
+                void create() {
+                    button = new Button();
+                    button.getStyleClass().add("button-cell");
+
+                    if (btn_icn != null) {
+                        button.setGraphic(btn_icn.get());
+                        button.getStyleClass().add("icon-button-cell");
+                    }
+
+                    if (btn_txt != null) {
+                        button.getStyleClass().add("text-button-cell");
+                    }
+
                     button.setOnAction(event -> doAction(getCurrentItem()));
-                    button.setGraphic(IconBuilder.button(btn_text, Color.WHITE));
+                    button.setStyle((buttonSize != -1 ? "-fx-size : " + buttonSize + "px;" : "")
+                            + ((baseColor != null) ? " -fx-base:" + baseColor + " !important;" : ""));
+
                     onNewButtonCreated(button);
                     setText(null);
                 }
@@ -91,6 +76,8 @@ public class ButtonCol<Item> extends col<Item, String> {
                             setGraphic(null);
                         } else {
                             if (showButton.apply(currentItem)) {
+                                if (button == null) create();
+                                if (getButtonText != null) button.setText(getButtonText.apply(currentItem));
                                 setGraphic(button);
                             } else {
                                 setGraphic(null);
@@ -104,21 +91,6 @@ public class ButtonCol<Item> extends col<Item, String> {
             cell.setWrapText(true);
             return cell;
         });
-
-        setSortable(false);
-    }
-
-    public ButtonCol(String btn_text, Consumer<Item> ZGAction) {
-        this(btn_text, btn_text, null, ZGAction);
-    }
-
-    public ButtonCol(String title, String btn_text, Consumer<Item> ZGAction) {
-        this(title, btn_text, null, ZGAction);
-    }
-
-    public ButtonCol(String btn_text, Consumer<Item> ZGAction, double size) {
-        this(btn_text, btn_text, null, ZGAction);
-        setPrefWidth(size);
     }
 
     public void onNewButtonCreated(Button button) {
@@ -129,6 +101,12 @@ public class ButtonCol<Item> extends col<Item, String> {
         if (onClick != null) {
             onClick.accept(item);
         }
+    }
+
+    public ButtonCol<Item> setStyle(int buttonSize, String baseColor) {
+        this.buttonSize = buttonSize;
+        this.baseColor = baseColor;
+        return this;
     }
 
     public void setShowButton(Function<Item, Boolean> showButton) {

@@ -90,6 +90,7 @@ public class MainView implements ZFxml {
         header_buttons.setVisible(false);
         notificationImage.setVisible(false);
         progressBarView.setVisible(false);
+
     }
 
     public Button addHeaderButton(String text, EventHandler handler) {

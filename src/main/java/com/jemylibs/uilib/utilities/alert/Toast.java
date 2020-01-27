@@ -1,27 +1,30 @@
 package com.jemylibs.uilib.utilities.alert;
 
+import com.jemylibs.uilib.Application;
 import com.jemylibs.uilib.UIController;
 import com.jemylibs.uilib.ZView.ZFxml;
+import com.jemylibs.uilib.utilities.icon.fontIconLib.support.FontAwesome;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.geometry.Rectangle2D;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
-import javafx.stage.Screen;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Toast implements ZFxml {
+    static ArrayList<Tooltip> toasts = new ArrayList<>();
     @FXML
     public Button close_but;
-
     Parent parent;
     @FXML
     private Label title_label, content_label;
@@ -43,18 +46,23 @@ public class Toast implements ZFxml {
         }
         Toast toast = ZFxml.get("/zres/fx_layout/alerts/toast.fxml");
 
-        Tooltip S = new Tooltip();
-        S.setStyle("-fx-background-color: rgba(0,0,0,.0)");
-        S.setGraphic(toast.parent);
+        Tooltip tooltip = new Tooltip();
+        toasts.add(tooltip);
+        tooltip.setStyle("-fx-background-color: rgba(0,0,0,.0)");
+        tooltip.setGraphic(toast.parent);
         toast.fill(toast_type, Title, Text);
 
-        toast.close_but.setOnAction(event -> S.hide());
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        double y = screenBounds.getMinY() + screenBounds.getHeight();
+        toast.close_but.setOnAction(event -> tooltip.hide());
+        toast.close_but.setGraphic(FontAwesome.FA_CLOSE.mk(10, Color.WHITE));
+        double lastAnchorY;
+        for (Tooltip toast1 : toasts) {
+            double anchorY = tooltip.getAnchorY();
+        }
+
         if (mainStage.isShowing()) {
-            S.show(mainStage, mainStage.getX() + 20, mainStage.getY() + 20);
+            tooltip.show(mainStage, mainStage.getX() + 20, mainStage.getY() + 20);
         } else {
-            S.show(mainStage, 50, 50);
+            tooltip.show(mainStage, 50, 50);
         }
 
         //////Show and Hide
@@ -68,7 +76,8 @@ public class Toast implements ZFxml {
             if (HoveProperty.get()) {
                 wait.play();
             } else {
-                S.hide();
+                tooltip.hide();
+                toasts.remove(tooltip);
             }
         });
         wait.play();
@@ -76,7 +85,7 @@ public class Toast implements ZFxml {
         HoveProperty.addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             wait.playFromStart();
         });
-        return S;
+        return tooltip;
     }
 
     @Override
@@ -87,11 +96,19 @@ public class Toast implements ZFxml {
     @Override
     public void setView(Parent parent) {
         this.parent = parent;
+        parent.setNodeOrientation((NodeOrientation) Application.getApplication().getBundle().getObject("Orientation"));
+        if (UIController.debugcss) {
+            parent.getStylesheets().setAll("file:///D:/Workstation/NEWSYSTEMS/fxframework/src/main/resources/" + "zres/fx_layout/alerts/toast.css");
+        }
     }
 
     public void fill(Type type, String title, String content) {
         this.title_label.setText(title);
-        this.content_label.setText(content);
+        String cn = content;
+        for (int i = 0; i < 100; i++) {
+            cn += " " + content;
+        }
+        this.content_label.setText(cn);
         parent.getStyleClass().add(type.style);
     }
 
