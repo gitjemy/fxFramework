@@ -1,9 +1,8 @@
 package com.jemylibs.uilib.ZView.containers;
 
-import com.jemylibs.uilib.UIController;
+import com.jemylibs.uilib.Application;
 import com.jemylibs.uilib.ZView.ZFxml;
 import com.jemylibs.uilib.view.ZBaseSystemView;
-
 import javafx.collections.ObservableList;
 import javafx.scene.control.Tab;
 
@@ -28,14 +27,14 @@ public abstract class ZTb extends Tab implements ZBaseSystemView {
 
     final public <ZTB extends ZTb> ZTB open() {
         if (isOpenedAsTab()) {
-            UIController.mainView.MainStageTabPane.getSelectionModel().select(this);
+            Application.getApplication().getUiController().getMainView().MainStageTabPane.getSelectionModel().select(this);
             this.reload(source.external);
         } else {
             if (canOpen()) {
                 setContent(getView());
-                UIController.mainView.MainStageTabPane.getTabs().remove(this);
-                UIController.mainView.MainStageTabPane.getTabs().add(this);
-                UIController.mainView.MainStageTabPane.getSelectionModel().select(this);
+                Application.getApplication().getUiController().getMainView().MainStageTabPane.getTabs().remove(this);
+                Application.getApplication().getUiController().getMainView().MainStageTabPane.getTabs().add(this);
+                Application.getApplication().getUiController().getMainView().MainStageTabPane.getSelectionModel().select(this);
                 reload(source.external);
             }
         }
@@ -49,7 +48,7 @@ public abstract class ZTb extends Tab implements ZBaseSystemView {
 
     public boolean isOpenedAsTab() {
         boolean isOpened = false;
-        ObservableList<Tab> Tabs = UIController.mainView.MainStageTabPane.getTabs();
+        ObservableList<Tab> Tabs = Application.getApplication().getUiController().getMainView().MainStageTabPane.getTabs();
         for (Tab Tab1 : Tabs) {
             if (Tab1 == this) {
                 isOpened = true;
@@ -61,7 +60,7 @@ public abstract class ZTb extends Tab implements ZBaseSystemView {
 
     protected void close() {
         if (canClose()) {
-            UIController.mainView.MainStageTabPane.getTabs().remove(this);
+            Application.getApplication().getUiController().getMainView().MainStageTabPane.getTabs().remove(this);
             setContent(null);
             System.gc();
         }

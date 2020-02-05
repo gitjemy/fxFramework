@@ -20,7 +20,7 @@ public interface JDateTime {
     String date_time_format = time_format + " | " + date_format;
     DateTimeFormatter date_time_formatter = DateTimeFormatter.ofPattern(date_time_format);
 
-    String file_name_format = "yyyy-MM-dd";
+    String file_name_format = "yyyy-MM-dd(hh.mma)";
     DateTimeFormatter file_name_date_formatter = DateTimeFormatter.ofPattern(file_name_format);
 
     static String str_time(LocalDateTime value) {
@@ -49,7 +49,7 @@ public interface JDateTime {
     }
 
     static String addDateToFileName(String prefix, LocalDateTime now, String suffix) {
-        return prefix + "_" + file_name_date_formatter.format(now) + suffix;
+        return prefix + "" + file_name_date_formatter.format(now) + suffix;
     }
 
     static String formatLongDate(long value) {

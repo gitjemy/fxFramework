@@ -43,6 +43,10 @@ public class NumbersTextField extends TextField {
     }
 
     public void setIntValue(int val) {
-        setText(val + "");
+        if (val == 0) {
+            setText("");
+        } else {
+            setText(val + "");
+        }
     }
 }

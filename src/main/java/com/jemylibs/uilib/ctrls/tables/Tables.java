@@ -3,6 +3,7 @@ package com.jemylibs.uilib.ctrls.tables;
 import com.jemylibs.gdb.ZSqlRow;
 import com.jemylibs.sedb.SETable;
 import com.jemylibs.sedb.ZCOL.SqlCol;
+import com.jemylibs.uilib.UIController;
 import com.jemylibs.uilib.ctrls.tables.customCols.PropertyCol;
 import com.jemylibs.uilib.ctrls.tables.customCols.col;
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
@@ -16,12 +17,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.jemylibs.uilib.UIController.assertation;
-
 
 public class Tables {
     static {
-        assertation();
+        UIController.assertation();
     }
 
     public static <R> void init_table(TableView<R> table, col<R, ?>... cols) {

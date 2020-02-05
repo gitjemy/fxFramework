@@ -2,11 +2,12 @@ package com.jemylibs.data.seimpl.utility;
 
 import com.jemylibs.gdb.properties.Func;
 import com.jemylibs.gdb.properties.Property;
+import com.jemylibs.gdb.properties.WritableProperty;
 import com.jemylibs.sedb.helpers.SQLiteHelper;
 import com.jemylibs.sedb.utility.JDateTime;
+import com.jemylibs.uilib.Application;
 import com.jemylibs.uilib.UIController;
 import com.jemylibs.uilib.utilities.ZValidate;
-import com.jemylibs.uilib.windows.MainView;
 import com.jemylibs.uilib.windows.ShowFilePath;
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -95,7 +96,7 @@ public class IO {
                 new FileChooser.ExtensionFilter("excel files (" + String.join(",", formats) + ")", formats)
         );
         chooser.setInitialFileName(defaultFileName);
-        return chooser.showSaveDialog(UIController.mainStage);
+        return chooser.showSaveDialog(Application.getApplication().getUiController().getMainStage());
     }
 
     public static File showOpenDialog(String title, String... formats) {
@@ -104,11 +105,12 @@ public class IO {
         chooser.getExtensionFilters().setAll(
                 new FileChooser.ExtensionFilter("excel files (" + String.join(",", formats) + ")", formats)
         );
-        return chooser.showOpenDialog(UIController.mainStage);
+        return chooser.showOpenDialog(Application.getApplication().getUiController().getMainStage());
     }
 
     public static <E> void ExportXlxs(String sheetName, String defaultFileName, List<E> list, SheetProperty<E, ?>... properties) throws IOException {
-        File file = showSaveDialog(defaultFileName, "تصدير ...", "*.xlsx");
+        File file = showSaveDialog(JDateTime.addDateToFileName(defaultFileName, LocalDateTime.now(), ".xlsx"),
+                "تصدير ...", "*.xlsx");
         if (file == null) {
             return;
         }
@@ -142,8 +144,8 @@ public class IO {
         cellStyle.setAlignment(CellStyle.ALIGN_RIGHT);
 
 
-        UIController.mainView.addTask(
-                new MainView.Task(list.size()) {
+        Application.getApplication().addTask(
+                new UIController.Task(list.size(), null) {
                     @Override
                     public void runTask() throws Throwable {
 
@@ -266,8 +268,8 @@ public class IO {
         try {
             File file = IO.showOpenDialog("إستيراد ...", "*.jsef");
             if (file != null) {
-                if (UIController.mainView.isInProgress()) {
-                    throw new ZValidate(UIController.mainView.getProgressBar(),
+                if (Application.getApplication().getUiController().isInProgress()) {
+                    throw new ZValidate(Application.getApplication().getUiController().getMainView().getProgressBar(),
                             "Can't do this process right now,\nplease try again after application done with all tasks.");
                 }
                 for (SQLiteHelper sqLiteHelper : link) {
@@ -294,6 +296,10 @@ public class IO {
 
         public SheetProperty(String title, Func<E, V> reader) {
             super(title, reader);
+        }
+
+        public SheetProperty(WritableProperty<E, V> property) {
+            super(property.getTitle(), property.getReader());
         }
 
         public SheetProperty(String title, Func<E, V> reader, String total) {

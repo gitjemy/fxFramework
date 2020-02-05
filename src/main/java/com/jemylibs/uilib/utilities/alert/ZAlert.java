@@ -1,7 +1,7 @@
 package com.jemylibs.uilib.utilities.alert;
 
 import com.jemylibs.data.seimpl.utility.ZSystemError;
-import com.jemylibs.uilib.UIController;
+import com.jemylibs.uilib.Application;
 import com.jemylibs.uilib.utilities.ZValidate;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
@@ -31,7 +31,7 @@ public interface ZAlert {
                 } else {
                     title = "Error";
                 }
-                if (UIController.mainStage != null && UIController.mainStage.isShowing()) {
+                if (Application.getApplication().getUiController().getMainStage() != null && Application.getApplication().getUiController().getMainStage().isShowing()) {
                     Toast.ErrorToast(title, error.getMessage());
                 } else {
                     Dialog.ErrorAlert(error.getMessage(), error.toString() + "\n" +
@@ -57,12 +57,12 @@ public interface ZAlert {
         //<editor-fold defaultstate="collapsed" desc="Methods">
         static void ShowErrorTip(Node node, String Text) {
             if (node == null) {
-                Toast.ErrorToast("خطأ", Text);
+                Toast.ErrorToast("error", Text);
+                return;
             } else if (node.getScene() == null) {
                 Toast.ErrorToast(node.getAccessibleText(), Text);
                 return;
             }
-
             node.requestFocus();
             Tooltip S = new Tooltip(Text);
             S.getStyleClass().add("ErrorTo olTip");
@@ -120,7 +120,7 @@ public interface ZAlert {
 
         static void ShowGuideTip(Node node, Node graphic, String Text) {
             if (node.getScene() == null) {
-                Toast.JToast(node.getAccessibleText(), Text, Toast.Type.Fine, Duration.millis(180));
+                Toast.JToast(node.getAccessibleText(), Text, Toast.FineStyleClass, Duration.millis(180));
                 return;
             }
             node.requestFocus();

@@ -1,5 +1,6 @@
 package com.jemylibs.uilib.ZView.containers;
 
+import com.jemylibs.uilib.Application;
 import com.jemylibs.uilib.UIController;
 import com.jemylibs.uilib.view.ZNode;
 import javafx.scene.Parent;
@@ -19,12 +20,12 @@ public abstract class ZBasedWindow implements ZNode {
     }
 
     void initForShow() {
-        this.stage = UIController.register_stage(new Stage());
+        this.stage = Application.getApplication().getUiController().register_stage(new Stage());
         this.stage.initModality(Modality.WINDOW_MODAL);
 
         this.stage.setOnCloseRequest(r -> {
             onClose();
-            UIController.unregister_stage(stage);
+            Application.getApplication().getUiController().unregister_stage(stage);
         });
 
         this.stage.setTitle(title);
@@ -73,7 +74,7 @@ public abstract class ZBasedWindow implements ZNode {
     }
 
     protected void close() {
-        UIController.reloadAllViews();
+        Application.getApplication().getUiController().reloadAllViews();
         this.getStage().close();
     }
 }

@@ -85,7 +85,7 @@
 
 .table-view .icon-button-cell.text-button-cell {
     -fx-size: 1.6em !important;
-    -fx-base: #14b4ff !important;
+    -fx-base: #d6d6d6 !important;
     -fx-padding: 3 8 3 8;
     -fx-alignment: CENTER;
     -fx-pref-width: -1;

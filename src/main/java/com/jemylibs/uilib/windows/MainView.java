@@ -41,6 +41,7 @@ public class MainView implements ZFxml {
     ImageView notificationImage;
     public HBox progressBarView;
     @FXML
+    public
     ProgressBar progressBar;
     @FXML
     private HBox header_buttons;
@@ -55,11 +56,6 @@ public class MainView implements ZFxml {
 
     public void init() {
         UpdateBackground();
-    }
-
-    public void SetTitle(String Text) {
-        app_title.setText(Text);
-        UIController.mainStage.setTitle(Text);
     }
 
     public void UpdateBackground() {
@@ -114,60 +110,5 @@ public class MainView implements ZFxml {
         return button;
     }
 
-    public void addTask(Task task) {
-        new Thread(() -> {
-            progressBarView.setVisible(true);
-            if (task.max == -1) {
-                progressBar.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
-            } else {
-                progressBar.setProgress(0);
-            }
-            try {
-                task.runTask();
-            } catch (Throwable e) {
-                ZAlert.errorHandle(e);
-            }
-            progressBarView.setVisible(false);
-        }).start();
-    }
 
-    public boolean isInProgress() {
-        return progressBarView.isVisible();
-    }
-
-    static public abstract class Task {
-        public int max = -1;
-        int progress;
-
-        public Task(int max) {
-            this.max = max;
-        }
-
-        public Task() {
-        }
-
-        public abstract void runTask() throws Throwable;
-
-        public void setProgress(int progress) {
-            this.progress = progress;
-            double v = (double) progress / (double) max;
-            UIController.mainView.progressBar.setProgress(v);
-        }
-    }
-
-    abstract public static class LoopTask extends Task {
-        public LoopTask(int max) {
-            super(max);
-        }
-
-        @Override
-        final public void runTask() throws Throwable {
-            for (int i = 0; i < max; i++) {
-                looping(i);
-                setProgress(i);
-            }
-        }
-
-        protected abstract void looping(int i) throws Throwable;
-    }
 }

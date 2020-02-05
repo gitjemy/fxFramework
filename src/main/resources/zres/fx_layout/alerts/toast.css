@@ -9,20 +9,20 @@
 
 .toast-view {
     -fx-padding: 5;
-    -fx-background-radius: 6;
-    -fx-border-radius: 6;
-    -fx-border-width: 3;
-    -fx-border-color: rgba(0, 0, 0, 0.78) !important;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-border-color: rgba(0, 0, 0, 0.66);
     -fx-background-color: -fx-type-color;
     -fx-text-fill: ladder(rgb(30, 30, 30), white, black);
 }
 
 .toast-view:hover {
-    -fx-border-color: rgba(33, 33, 33, .4) !important;
+    -fx-border-color: rgba(0, 0, 0, 0.9);
 }
 
 .toast-close-button {
-    -fx-base:#333 !important;
+    -fx-base: #333 !important;
     -fx-background-radius: 50;
     -fx-border-radius: 50;
     -fx-padding: 2 0 2 0;

@@ -1,7 +1,6 @@
 package com.jemylibs.uilib.utilities.alert;
 
 import com.jemylibs.uilib.Application;
-import com.jemylibs.uilib.UIController;
 import com.jemylibs.uilib.ZView.ZFxml;
 import com.jemylibs.uilib.utilities.icon.fontIconLib.support.FontAwesome;
 import javafx.animation.PauseTransition;
@@ -22,6 +21,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Toast implements ZFxml {
+    public static final String ErrorStyleClass = "type-error";
+    public static final String FineStyleClass = "type-fine";
+
     static ArrayList<Tooltip> toasts = new ArrayList<>();
     @FXML
     public Button close_but;
@@ -29,17 +31,16 @@ public class Toast implements ZFxml {
     @FXML
     private Label title_label, content_label;
 
-
     public static Tooltip SucssesToast(String Title, String Txt) {
-        return JToast(Title, Txt, Type.Fine, Duration.seconds(10));
+        return JToast(Title, Txt, FineStyleClass, Duration.seconds(10));
     }
 
     public static Tooltip ErrorToast(String Title, String Txt) {
-        return JToast(Title, Txt, Type.Error, Duration.seconds(18));
+        return JToast(Title, Txt, ErrorStyleClass, Duration.seconds(18));
     }
 
-    public static Tooltip JToast(String Title, String Text, Type toast_type, Duration duration) {
-        Stage mainStage = UIController.mainStage;
+    public static Tooltip JToast(String Title, String Text, String styleClass, Duration duration) {
+        Stage mainStage = Application.getApplication().getUiController().getMainStage();
         if (mainStage == null) {
             System.out.println(Title + " - " + Text);
             return null;
@@ -50,14 +51,10 @@ public class Toast implements ZFxml {
         toasts.add(tooltip);
         tooltip.setStyle("-fx-background-color: rgba(0,0,0,.0)");
         tooltip.setGraphic(toast.parent);
-        toast.fill(toast_type, Title, Text);
+        toast.fill(styleClass, Title, Text);
 
         toast.close_but.setOnAction(event -> tooltip.hide());
         toast.close_but.setGraphic(FontAwesome.FA_CLOSE.mk(10, Color.WHITE));
-        double lastAnchorY;
-        for (Tooltip toast1 : toasts) {
-            double anchorY = tooltip.getAnchorY();
-        }
 
         if (mainStage.isShowing()) {
             tooltip.show(mainStage, mainStage.getX() + 20, mainStage.getY() + 20);
@@ -97,29 +94,15 @@ public class Toast implements ZFxml {
     public void setView(Parent parent) {
         this.parent = parent;
         parent.setNodeOrientation((NodeOrientation) Application.getApplication().getBundle().getObject("Orientation"));
-        if (UIController.debugcss) {
+        if (Application.getApplication().getUiController().isDebugcss()) {
             parent.getStylesheets().setAll("file:///D:/Workstation/NEWSYSTEMS/fxframework/src/main/resources/" + "zres/fx_layout/alerts/toast.css");
         }
     }
 
-    public void fill(Type type, String title, String content) {
+    public void fill(String styleClass, String title, String content) {
         this.title_label.setText(title);
-        String cn = content;
-        for (int i = 0; i < 100; i++) {
-            cn += " " + content;
-        }
-        this.content_label.setText(cn);
-        parent.getStyleClass().add(type.style);
+        this.content_label.setText(content);
+        parent.getStyleClass().add(styleClass);
     }
 
-    public enum Type {
-        Error("type-error", "حدث خطأ"), Fine("type-fine", "تم");
-        final String style;
-        final String text;
-
-        Type(String style, String text) {
-            this.style = style;
-            this.text = text;
-        }
-    }
 }

@@ -12,6 +12,7 @@ public abstract class Application extends javafx.application.Application {
     static Application[] applications;
     private final Locale locale;
     ResourceBundle bundle;
+    private UIController uiController;
 
     public Application(Locale locale) {
         bundle = ResourceBundle.getBundle(Constants.class.getName(), locale);
@@ -31,20 +32,21 @@ public abstract class Application extends javafx.application.Application {
         return getApplication().getBundle().getString(key);
     }
 
+    public UIController getUiController() {
+        return uiController;
+    }
+
     public ResourceBundle getBundle() {
         return bundle;
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        UIController.mainStage = primaryStage;
-        UIController.mainView = MainView.getInstance();
-        configureMainView(UIController.mainView);
-        primaryStage.setScene(UIController.createScene(UIController.mainView.view));
-        UIController.mainStage.getIcons().setAll(new Image("/zres/images/Icons/app-icon.png"));
-
-        UIController.mainView.MenuBar.getMenus().clear();
-        startApp(UIController.mainStage);
+        uiController = UIController.getInstance(primaryStage);
+        configureMainView(uiController.getMainView());
+        primaryStage.getIcons().setAll(new Image("/zres/images/Icons/app-icon.png"));
+        uiController.getMainView().MenuBar.getMenus().clear();
+        startApp(primaryStage);
     }
 
     protected abstract void configureMainView(MainView mainView);
@@ -53,5 +55,9 @@ public abstract class Application extends javafx.application.Application {
 
     public Locale getLocale() {
         return locale;
+    }
+
+    public void addTask(UIController.Task task) {
+        uiController.addTask(task);
     }
 }

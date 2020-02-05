@@ -28,6 +28,7 @@ public class DBImage extends VBox {
     public Button selectFile = new Button("...");
     public Button deleteImage = new Button("X");
     File imagePath;
+    private Runnable onImageSelected = null;
 
     public DBImage(String title, String imagesDir, int imageSize, String imageId) {
         File dir = new File(imagesDir);
@@ -35,7 +36,6 @@ public class DBImage extends VBox {
             dir.mkdirs();
         }
         imagePath = new File(dir.getAbsolutePath() + "/" + imageId);
-
 
         deleteImage.setOnAction(event -> {
             try {
@@ -69,6 +69,7 @@ public class DBImage extends VBox {
         getChildren().addAll(imageView, hBox);
 
         refresh();
+
         selectFile.setOnAction(event -> {
             FileChooser chooser = new FileChooser();
             chooser.setTitle(title);
@@ -83,6 +84,7 @@ public class DBImage extends VBox {
                 try {
                     Files.copy(file.toPath(), imagePath.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     refresh();
+                    if (onImageSelected != null) onImageSelected.run();
                 } catch (IOException e) {
                     ZAlert.errorHandle(e);
                 }
@@ -92,6 +94,10 @@ public class DBImage extends VBox {
         setAlignment(Pos.CENTER);
         setSpacing(10);
         setPadding(new Insets(10));
+    }
+
+    public void setOnImageSelected(Runnable onImageSelected) {
+        this.onImageSelected = onImageSelected;
     }
 
     private void refresh() {
