@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 
 public abstract class ZBasedWindow implements ZNode {
     private final String title;
+    boolean resizable = false;
     private ArrayList<Consumer<ZBasedWindow>> onClose;
     private Stage stage;
 
@@ -20,17 +21,18 @@ public abstract class ZBasedWindow implements ZNode {
     }
 
     void initForShow() {
-        this.stage = Application.getApplication().getUiController().register_stage(new Stage());
-        this.stage.initModality(Modality.WINDOW_MODAL);
-
-        this.stage.setOnCloseRequest(r -> {
-            onClose();
-            Application.getApplication().getUiController().unregister_stage(stage);
-        });
-
-        this.stage.setTitle(title);
-        Parent view = getView();
-        stage.setScene(UIController.createScene(view));
+        if (stage == null) {
+            this.stage = Application.getApplication().getUiController().register_stage(new Stage());
+            this.stage.initModality(Modality.WINDOW_MODAL);
+            this.stage.setOnCloseRequest(r -> {
+                onClose();
+                Application.getApplication().getUiController().unregister_stage(stage);
+            });
+            stage.setResizable(resizable);
+            this.stage.setTitle(title);
+            Parent view = getView();
+            stage.setScene(UIController.createScene(view));
+        }
     }
 
     public Stage getStage() {
@@ -39,6 +41,10 @@ public abstract class ZBasedWindow implements ZNode {
 
     public boolean isShowing() {
         return stage.isShowing();
+    }
+
+    public void setResizable(boolean resizable) {
+        this.resizable = resizable;
     }
 
     public void show() {

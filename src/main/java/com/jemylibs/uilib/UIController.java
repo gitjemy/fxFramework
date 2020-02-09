@@ -13,6 +13,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -43,8 +44,8 @@ public class UIController {
         assertation();
         if (debugcss) {
             Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.millis(500), event -> {
-                applyCss(mainStage);
-                sub_Stages.forEach(this::applyCss);
+                applyStyle(mainStage);
+                sub_Stages.forEach(this::applyStyle);
             }));
             fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
             fiveSecondsWonder.play();
@@ -144,7 +145,7 @@ public class UIController {
             stage.initOwner(mainStage);
             sub_Stages.add(stage);
         }
-        applyCss(stage);
+        applyStyle(stage);
         return stage;
     }
 
@@ -158,7 +159,8 @@ public class UIController {
         ZSystemView.openedDialogs.forEach(zBaseSystemView -> zBaseSystemView.reload(ZBaseSystemView.source.external));
     }
 
-    public void applyCss(Stage stage) {
+    public void applyStyle(Stage stage) {
+        stage.getIcons().setAll(new Image("/images/app-icon.png"));
         apply(stage.getScene());
         if (stage != mainStage) {
             stage.showingProperty().addListener((observable, oldValue, newValue) -> {

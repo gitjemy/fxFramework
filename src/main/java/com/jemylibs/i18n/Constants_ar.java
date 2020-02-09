@@ -19,6 +19,8 @@ public class Constants_ar extends ListResourceBundle {
             {"Button_No", "لا"},
             {"Danger", "إنتبه"},
             {"Add", "إضافة"},
+            //ui
+            {"TableViewNoData", "فارغ"},
 
     };
 

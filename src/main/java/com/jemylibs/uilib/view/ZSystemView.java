@@ -31,6 +31,7 @@ public abstract class ZSystemView implements ZBaseSystemView {
             };
         }
         openedDialogs.add(this);
+        mZBasedWindow.setResizable(true);
         mZBasedWindow.addOnClose(s -> openedDialogs.remove(this));
         mZBasedWindow.showAndWait();
     }

@@ -19,6 +19,8 @@ public class Constants extends ListResourceBundle {
             {"Button_No", "No"},
             {"Danger", "!Be aware"},
             {"Add", "Add"},
+            //ui
+            {"TableViewNoData", "Empty"},
 
     };
 
